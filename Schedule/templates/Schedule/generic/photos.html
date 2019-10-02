@@ -1,0 +1,72 @@
+{% extends 'Schedule/base.html'%}
+{% load static%}
+{%block title%}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.11/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/schedule_index.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/profile.css' %}">
+
+{% endblock %}
+{% block content %}
+
+<div class="container box-75">
+  <br>
+  <div class="heading" style="margin-left:15px; background-color: transparent;">
+    <h2>Gallery</h2>
+    <img src="{% static 'Schedule/img/index/line.png' %}" id="u1">
+  </div>
+  <br>
+  <br>
+
+</div>
+<div class="conatiner box-75">
+  <div style="margin:auto; width: fit-content; text-align: center; line-height: 42px;">
+    {%for album in albums%}
+    {%ifequal album.album album_name  %}
+    <button class="btn btn-success">{{album.album}}</button>
+    {%else%}
+    <a class="btn btn-primary" href="{%url 'gallery_name' album.album %}">{{album.album}}</a>
+    {%endifequal%}
+    {%endfor%}
+  </div>
+  <br>
+  <div id="animated-thumbnials" style="text-align: center;">
+    {%for photo in photos%}
+    <a href="https://storage.interiit.com/media/{{photo.urls}}">
+    <img src="https://storage.interiit.com/media/thumbs/{{photo.urls}}" style="width:270px; margin-bottom:5px; height:180px; object-fit: cover;">
+    </a>
+    {%endfor%}
+  </div>
+</div>
+
+  {%comment%}
+  {% if photos.has_other_pages %}
+  <div class="pagination btn-group" style="margin:auto; width:fit-content">
+    {% if photos.has_previous %}
+    <a class="btn btn-info" href="?page={{ photos.previous_page_number }}">&laquo;</a>
+    {% else %}
+    <button disabled class="btn btn-info">&laquo;</button>
+    {% endif %}
+    {% for i in photos.paginator.page_range %}
+    {% if photos.number == i %}
+    <button class="btn btn-primary">{{ i }}</button>
+    {% else %}
+    <a class="btn btn-info" href="?page={{ i }}">{{ i }}</a>
+    {% endif %}
+    {% endfor %}
+    {% if photos.has_next %}
+    <a class="btn btn-info" href="?page={{ photos.next_page_number }}">&raquo;</a>
+    {% else %}
+    <button disabled class="btn btn-info">&raquo;</button>
+    {% endif %}
+  </div>
+  <br>
+  {% endif %}
+  {%endcomment%}
+<br>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.11/js/lightgallery-all.min.js"></script>
+<script type="text/javascript">
+  $('#animated-thumbnials').lightGallery({
+    thumbnail:true
+  }); 
+</script>
+{% endblock %}

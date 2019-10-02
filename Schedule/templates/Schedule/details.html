@@ -1,0 +1,88 @@
+{% extends 'Schedule/base.html' %}
+{% load staticfiles %}
+
+{% load custom_tags %}
+
+{% block content %}
+<!--Sports specific image -->
+<img src="{% static 'Schedule/img/football.jpg' %}" class="backgroundImage">
+<div class="container-fluid">
+   <div class="sportsBox" style="text-align: center;">
+      <!-- Sports specific icon -->
+      <img src="{% static 'Schedule/img/football.png' %}" class="sportsImg" />
+      <br><br>
+      <h1 class="">{{matches.sport}}</h1>
+      <!--<span class="sportsName">Football</span>-->
+   </div>
+</div>
+
+<div class="container">
+    <div class="">
+      <br>
+      {% with matches.sport|sport_score as path %}
+        <button onclick="window.location='{% url path %}'" type="button" class="btn btn-danger">Score Table</button>
+      {% endwith %}
+      {% if request.user.is_staff %}
+
+          {% with matches.sport|sport_create as path %}
+          <button onclick="window.location='{% url path %}'" type="button" class="btn btn-primary">Add Entry</button>
+          {% endwith %}
+      {% else %}
+
+      {% endif %}
+    </div>
+    <hr/>
+{% if matches.matches %}
+  <!-- iit filter -->
+  <div class="form-group col-md-4 pull-right">
+    <select class="form-control" id="team-filter" class="col-md-2">
+      <option data-id="unfiltered" selected>---Select Team---</option>
+      <option data-id="iitm">IIT Madras</option>
+      <option data-id="iitb">IIT Bombay</option>
+      <option data-id="iitd">IIT Delhi</option>
+      <option data-id="iitkgp">IIT Kharagpur</option>
+      <option data-id="iitk">IIT Kanpur</option>
+      <option data-id="iitr">IIT Roorkee</option>
+      <option data-id="iitg">IIT Guwahati</option>
+    </select>
+  </div>
+  <!-- end iit filter -->
+
+  {% regroup matches.matches by date as match_list %}
+  <ul class="nav nav-pills">
+    {% for date in match_list %}
+      {% with date.list|get_total_players as total_players %}
+        {% if total_players > 0 %}
+          <li class="nav-item">
+            <a data-toggle="pill" href="#{{ forloop.counter }}" class="nav-link date {{forloop.counter0|yesno:',active'}}">{{date.grouper|date:"d M"}}</a>
+          </li>
+        {% endif %}
+      {% endwith %}
+    {% endfor %}
+  </ul>
+
+  <div class="tab-content">
+    {% for date in match_list %}
+      {% with date.list|get_total_players as total_players %}
+        {% if total_players > 0 %}
+          <div id="{{forloop.counter}}" class="tab-pane container {{forloop.counter0|yesno:' fade, active'}}">
+            <div clas="container">
+              <div class="row">
+                  <div class="container">
+                    {% with date.list.0.event.sport|sport_template as template_path %}
+                      {% include template_path %}
+                    {% endwith %}
+                  </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endwith %}
+    {% endfor %}
+  </div>
+{% else %}
+    <p>No matches are available.</p>
+{% endif %}
+</div>
+
+{% endblock %}

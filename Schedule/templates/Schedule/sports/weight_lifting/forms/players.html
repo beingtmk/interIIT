@@ -1,0 +1,21 @@
+{% extends 'Schedule/base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <h1>Players Selected</h1>
+  <hr>
+  {% for player in players %}
+    {{player}}
+    <br>
+  {% endfor %}
+</div>
+
+{% endblock %}

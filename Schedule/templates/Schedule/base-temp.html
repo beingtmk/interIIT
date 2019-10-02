@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .horizontal { display: inline; background-color: lightgray; }
+    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Schedule</title>
+  {% load static %}
+  <!-- <link rel="stylesheet" href="{% static 'Schedule/css/bootstrap.css' %}" />
+  <link rel="stylesheet" href="{% static 'Schedule/css/style.css' %}" /> -->
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>{% block title %}
+
+{% endblock %}
+
+</head>
+<body>
+  <section id="above-nav" style="display: none;">
+     <div class="container-fluid">
+        <div class="row">
+           <div class="col-xs-0 col-md-4 text-left">
+           </div>
+           <div class="col-xs-12 col-md-4 text-center">
+           </div>
+           <div class="d-none d-md-block col-md-4 text-right social" >
+              <a  href="#" ><i class="fab fa-facebook"></i></a>
+              <a  href="#" ><i class="fab fa-instagram"></i></a>
+              <a  href="#" ><i class="fab fa-twitter"></i></a>
+              <a  href="#" ><i class="fab fa-youtube"></i></a>
+           </div>
+        </div>
+     </div>
+  </section>
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{% url 'homepage' %}">Inter IIT</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="{% url 'index' %}">Schedule & Results</a></li>
+
+          <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Tools <span class="caret"></span></a>
+           <ul class="dropdown-menu">
+             <li><a href="{% url 'playercreate' %}">Player Registration</a></li>
+
+             <!-- <li role="separator" class="divider"></li>
+             <li><a href="{% url 'playerlist' %}">Player List</a></li> -->
+
+             {% if request.user.is_authenticated %}
+             <li role="separator" class="divider"></li>
+             <li><a href="{% url 'sport_list' %}">Player Approval Portal</a></li>
+             {% endif %}
+<!--
+             <li role="separator" class="divider"></li>
+             <li><a href="#">Submit a Request!</a></li> -->
+
+
+           </ul>
+         </li>
+
+
+        </ul>
+        {% if request.user.is_authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <li><a href="#">Hi, {{ request.user.username|upper }}</a></li>
+              <li>
+                <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"> LOGOUT</a>
+              </li>
+            </li>
+          </ul>
+        {% else %}
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"> LogIn</a>
+            </li>
+          </ul>
+
+        {% endif %}
+
+        <!-- <form id="player" action='{% url 'search' %}' class="form-inline my-2 my-lg-0" method="post">
+          {% csrf_token %}
+          <input id="player" name="player" class="form-control mr-sm-2" type="text" placeholder="Search Player ..." aria-label="player">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form> -->
+
+        <form id="player" class="navbar-form navbar-left" action='{% url 'search' %}' method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <input id="player" name="player" class="form-control mr-sm-2" type="text" placeholder="Search Player ..." aria-label="player" class="form-control" placeholder="Search">
+          </div>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+        </form>
+
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+{#<p>This is due to base.html</p>#}
+
+  {% block content %}
+
+  {% endblock %}
+
+  {% block footer %}
+    {% include "Schedule/_footer.html" %}
+{% endblock %}
+</body>
+<!-- <script src="{% static 'Schedule/js/calendar.js' %}"></script> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+<script>
+  var csrf_token = '{{ csrf_token }}';
+
+  $(document).ready(function() {
+    // used to make first tab active
+    $('ul.active-tab-date li:first-child').addClass('active');
+    // used to make first tab content active
+    $('div.active-tab-content div:first-child').addClass('fade in active');
+    // remove event details, modify details if table is empty
+    var empty_table = $('table.event-entries:not(:has(*))');
+    empty_table.prevAll('hr').first().remove();
+    empty_table.prevAll('div.event-details').first().remove();
+    empty_table.nextAll('div.event-modify').first().remove();
+    empty_table.nextAll('hr').first().remove();
+    empty_table.remove();
+    // Team filter in matches page
+    $('#team-filter').change(function(e) {
+      var college = $(this).find('option:selected').attr('data-id');
+      if(college == "unfiltered") { $('.active-tab-content .iit, .active-tab-content hr, .active-tab-content, .event-details, .active-tab-content .event-modify').show();
+      } else {
+        // show college for single player games
+        $('.'+college).show().each(function(e, v) {
+          $(v).parents('table.event-entries').prevAll('hr').first().show().prevAll('.event-details').first().show().nextAll('div.event-modify').first().show().nextAll('hr').first().show();
+        });
+        // show college for team games
+        $('.'+college).show().each(function(e, v) {
+          $(v).prevAll('hr').first().show().prevAll('.event-details').first().show().nextAll('div.event-modify').first().show().nextAll('hr').first().show();
+        });
+        $('.iit').not('.'+college).hide();
+        // for single player games
+        $('.iit').not('.'+college).parents('table.event-entries').each(function(e, v) {
+          var count = $(v).find('tr:visible').length;
+          if(count == 0) $(v).prevAll('hr').first().hide().prevAll('.event-details').first().hide().nextAll('div.event-modify').first().hide().nextAll('hr').first().hide();
+        });
+        // for team games
+        $('.iit').not('.'+college).each(function(e, v) {
+          $(v).prevAll('hr').first().hide().prevAll('.event-details').first().hide().nextAll('div.event-modify').first().hide().nextAll('hr').first().hide();
+        });
+      }
+    });
+
+    // Player search in approval page
+    $('#player-search').on('input', function(e) {
+      var input = $(this).val();
+      $('.player-name').each(function(index, value) {
+        if($(this).text().toLowerCase().indexOf(input) == -1) {
+          $(this).parents('.player').hide();
+        } else {
+          $(this).parents('.player').show();
+        }
+      });
+    });
+  });
+</script>
+</html>

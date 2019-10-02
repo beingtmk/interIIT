@@ -1,0 +1,103 @@
+{%load static%}
+<div class="col-lg-5 col-md-6 col-sm-6 col-xm-12">
+  <table class="table table-hover table-responsive">
+    <thead>
+      <tr>
+        <th class="caption">LeaderBoard</th>
+        {% if request.user.is_staff %}
+        {% with matches.sport|add:"_form" as form_url %}
+        <th colspan="2"><a class="btn btn-secondary" href="{% url form_url %}">Add new entry</a></th>
+        {% endwith %}
+        {% endif %}
+      </tr>
+      <tr>
+        <th scope="col" class="col-left">Rank</th>
+        <th scope="col">College</th>
+        <th scope="col">Played</th>
+        <th scope="col">Win</th>
+        <th scope="col">Lost</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% regroup matches.scoretable by pool as pool_list %}
+    {% for pool in pool_list %}
+    <th colspan="7">{{pool.grouper}}</th>
+      {% for team in pool.list %}
+        <tr>
+          <th scope="row" class="col-left">{{forloop.counter}}</th>
+          <td><img src="{% static 'Schedule/img/IITs and LOGO/' %}{{team.team}}.png" class="logoimg image-responsive" style="height:auto;"> {{team.team}}</td>
+          <td>{{team.match_played}}</td>
+          <td>{{team.win}}</td>
+          <td>{{team.lose}}</td>
+          <td>{{team.points}}</td>
+          <td>
+          {% if request.user.is_staff %}
+            {% with matches.sport|add:"_table_update" as update_form_url %}
+            <a class="btn btn-secondary" href="{% url update_form_url team.id %}">Update</a>
+            {% endwith %}
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      {% endfor %}
+    </tbody>
+  </table>
+
+<!-- LEADERBOARD BUTTON ON SMALL SCREENS -->
+<button type="button" class="btn btn-primary LeaderB" data-toggle="modal" data-target="#exampleModal" style="margin-left:31%;">
+  LeaderBoard
+</button>
+<div class="modal fade model" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-body">
+         <table class="table table-hover table-responsive modeltable">
+           <thead>
+             <tr>
+               <th colspan="5" class="caption">LeaderBoard</th>
+              {% if request.user.is_staff %}
+              {% with matches.sport|add:"_form" as form_url %}
+              <th colspan="2"><a class="btn btn-secondary" href="{% url form_url %}">Add new entry</a></th>
+              {% endwith %}
+              {% endif %}
+             </tr>
+             <tr>
+               <th scope="col" class="col-left">Rank</th>
+               <th scope="col">College</th>
+               <th scope="col">Played</th>
+               <th scope="col">Win</th>
+               <th scope="col">Lost</th>
+               <th scope="col">Total</th>
+             </tr>
+           </thead>
+           <tbody>
+             {% regroup matches.scoretable by pool as pool_list %}
+              {% for pool in pool_list %}
+              <th colspan="7">{{pool.grouper}}</th>
+                {% for team in pool.list %}
+               <tr>
+                 <th scope="row" class="col-left">{{forloop.counter}}</th>
+                 <td><img src="{% static 'Schedule/img/IITs and LOGO/' %}{{team.team}}.png" class="logoimg image-responsive" style="height:auto;"> {{team.team}}</td>
+                 <td>{{team.match_played}}</td>
+                 <td>{{team.win}}</td>
+                 <td>{{team.lose}}</td>
+                 <td>{{team.points}}</td>
+                 <td>
+                 {% if request.user.is_staff %}
+                    {% with matches.sport|add:"_table_update" as update_form_url %}
+                    <a class="btn btn-secondary" href="{% url update_form_url team.id %}">Update</a>
+                    {% endwith %}
+                    {% endif %}
+                  </td>
+               </tr>
+             {% endfor %}
+             {% endfor %}
+           </tbody>
+         </table>
+       </div>
+     </div>
+   </div>
+</div>
+
+</div>

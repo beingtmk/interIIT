@@ -1,0 +1,158 @@
+{% extends 'Schedule/base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+<style media="screen">
+  body{
+    background-color: #fafafa;
+    font-family: Lato;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br>
+
+<!-- <div class="container" style="overflow-x:auto;">
+
+  <h1 class='heading_default'>Summary for your queryset : (Total - {{players|length}})</h1>
+  <hr><br>
+
+  <div class="row">
+
+  <div class="col-md-4">
+
+    <h2>Food Count:</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Food</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for food in count_food %}
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td>{{food.food}}</td>
+          <td>{{food.count}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+<br><br>
+
+
+<div class="col-md-4">
+  <h2>Category Count:</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Category</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for category in count_category %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{category.category}}</td>
+        <td>{{category.count}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<br><br>
+
+<div class="col-md-4">
+  <h2>Blood Count:</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Blood Group</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for blood in count_blood %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{blood.blood_group}}</td>
+        <td>{{blood.count}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+</div> -->
+
+<div class="container" style="overflow-x:auto;">
+  <hr>
+  <br><br>
+  <h1 class="heading_default">Filtered Players according to your query:</h1>
+  <table class="table" id='table'>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Team</th>
+        <th scope="col">Category</th>
+        <th scope="col">Blood Group</th>
+        <th scope="col">Mobile No.</th>
+        <th scope="col">Email</th>
+        {% for event in events %}
+        <th>
+            {{event}}
+        </th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+    {% for player in players%}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{player.name}}</td>
+        <td>{{player.team}}</td>
+        <td>{{player.category}}</td>
+        <td>{{player.blood_group}}</td>
+        <td>{{player.mobile_no}}</td>
+        <td>{{player.email}}</td>
+        {% for event in events %}
+            {% if event in player.event.all %}
+              <td>Y</td>
+            {% else %}
+              <td></td>
+            {% endif %}
+        {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+<br><br>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#table').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+  } );
+</script>
+{% endblock %}

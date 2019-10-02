@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .horizontal { display: inline; background-color: lightgray; }
+    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Schedule</title>
+  {% load static %}
+  <!-- <link rel="stylesheet" href="{% static 'Schedule/css/bootstrap.css' %}" />
+  <link rel="stylesheet" href="{% static 'Schedule/css/style.css' %}" /> -->
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/bootstrap/css/bootstrap.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/bootstrap/css/bootstrap.min.css' %}">
+  <script src="{% static 'Schedule/bootstrap/js/bootstrap.js' %}"></script>
+
+
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/style3.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/animate.min.css' %}">
+
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/chosen.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/prism.css' %}">
+
+{% block title %}
+{% endblock %}
+
+</head>
+<body>
+  <section id="above-nav" style="display: none;">
+     <div class="container">
+        <div class="row">
+           <div class="col-xs-0 col-md-4 text-left">
+           </div>
+           <div class="col-xs-12 col-md-4 text-center">
+           </div>
+           <div class="d-none d-md-block col-md-4 text-right social" >
+              <a  href="#" ><i class="fab fa-facebook"></i></a>
+              <a  href="#" ><i class="fab fa-instagram"></i></a>
+              <a  href="#" ><i class="fab fa-twitter"></i></a>
+              <a  href="#" ><i class="fab fa-youtube"></i></a>
+           </div>
+        </div>
+     </div>
+  </section>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light ">
+     <a class="navbar-brand" href="{% url 'homepage' %}"><img src="{% static 'Schedule/img/logo.png' %}" class="logo"></a>
+     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+     <span class="navbar-toggler-icon blue">
+     </span>
+     </button>
+     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto navbar-left">
+      <!-- <a class="navbar-brand logo" href="{% url 'homepage' %}"><img src="{% static 'Schedule/img/logo.png' %}" alt="logo"/></a> -->
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+          <li class="nav-item " active>
+             <a class="nav-link" href="{% url 'index' %}">Schedule &amp; Results <span class="sr-only">(current)</span></a>
+          </li>
+
+          <li class="dropdown nav-item">
+           <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Tools <span class="caret"></span></a>
+           <ul class="dropdown-menu">
+             <li><a class="nav-link" href="{% url 'playercreate' %}">Player Registration</a></li>
+
+
+             {% if request.user.is_authenticated %}
+             <li role="separator" class="divider"></li>
+             <li><a class="nav-link" href="{% url 'player_list_staff' 'athletics' %}">Approval Portal</a></li>
+             {% endif %}
+
+             {% if request.user.is_staff %}
+             <li role="separator" class="divider"></li>
+             <li><a class="nav-link" href="{% url 'staff_register' %}">Staff Registration</a></li>
+             {% endif %}
+
+           </ul>
+         </li>
+
+           <form id="player" class="navbar-form navbar-left nav-link" action='{% url 'search' %}' method="post">
+             {% csrf_token %}
+             <div class="form-group">
+               <input id="player" name="player" class="form-control mr-sm-2" type="text" placeholder="Search Player ..." aria-label="player" class="form-control" placeholder="Search">
+                </input>
+
+             </div>
+           </form>
+
+           <li class="dropdown nav-item">
+             <button class="btn btn-info dropdown-toggle dropdown-toggle-split" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Info
+             </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class='nav-link' href="{% url 'about' %}">IITG</a>
+                </li>
+                <li>
+                  <a class='nav-link' href="">Getting There</a>
+                </li>
+                <li>
+                  <a class='nav-link' href="{% url 'interiit' %}">Inter IIT</a>
+                </li>
+                <li>
+                  <a class='nav-link' href="{% url 'places' %}">Tourist Attraction</a>
+                </li>
+                <li>
+                  <a class='nav-link' href="#">IITG Map</a>
+                </li>
+             </ul>
+           </li>
+
+          {% if request.user.is_authenticated %}
+          <li class="nav-item ">
+             <a class="nav-link" href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span>LOGOUT</a>
+          </li>
+          {% else %}
+          <li class="nav-item " active>
+             <a class="nav-link" href="{% url 'login' %}">LogIn</a>
+          </li>
+            <!-- <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"> LogIn</a></li> -->
+          {% endif %}
+        </ul>
+     </div>
+  </nav>
+
+{#<p>This is due to base.html</p>#}
+  {% block content %}
+
+  {% endblock %}
+
+  {% block footer %}
+    {% include "Schedule/_footer.html" %}
+{% endblock %}
+</body>
+<!-- <script src="{% static 'Schedule/js/calendar.js' %}"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'Schedule/js/chosen.jquery.min.js' %}"></script>
+<script src="{% static 'Schedule/js/prism.min.js' %}"></script>
+<script>
+  var csrf_token = '{{ csrf_token }}';
+  $(document).ready(function() {
+    // used to make first tab active
+    $('ul.active-tab-date li:first-child').addClass('active');
+    // used to make first tab content active
+    $('div.active-tab-content div:first-child').addClass('fade in active');
+    // remove event details, modify details if table is empty
+    var empty_table = $('table.event-entries:not(:has(*))');
+    empty_table.prevAll('hr').first().remove();
+    empty_table.prevAll('div.event-details').first().remove();
+    empty_table.nextAll('div.event-modify').first().remove();
+    empty_table.nextAll('hr').first().remove();
+    empty_table.remove();
+    // Team filter in matches page
+    $('#team-filter').change(function(e) {
+      var college = $(this).find('option:selected').attr('data-id');
+      if(college == "unfiltered") { $('.active-tab-content .iit, .active-tab-content hr, .active-tab-content, .event-details, .active-tab-content .event-modify').show();
+      } else {
+        // show college for single player games
+        $('.'+college).show().each(function(e, v) {
+          $(v).parents('table.event-entries').prevAll('hr').first().show().prevAll('.event-details').first().show().nextAll('div.event-modify').first().show().nextAll('hr').first().show();
+        });
+        // show college for team games
+        $('.'+college).show().each(function(e, v) {
+          $(v).prevAll('hr').first().show().prevAll('.event-details').first().show().nextAll('div.event-modify').first().show().nextAll('hr').first().show();
+        });
+        $('.iit').not('.'+college).hide();
+        // for single player games
+        $('.iit').not('.'+college).parents('table.event-entries').each(function(e, v) {
+          var count = $(v).find('tr:visible').length;
+          if(count == 0) $(v).prevAll('hr').first().hide().prevAll('.event-details').first().hide().nextAll('div.event-modify').first().hide().nextAll('hr').first().hide();
+        });
+        // for team games
+        $('.iit').not('.'+college).each(function(e, v) {
+          $(v).prevAll('hr').first().hide().prevAll('.event-details').first().hide().nextAll('div.event-modify').first().hide().nextAll('hr').first().hide();
+        });
+      }
+    });
+    // Player search in approval page
+    $('#player-search').on('input', function(e) {
+      var input = $(this).val();
+      print(input)
+      $('.player-name').each(function(index, value) {
+        if($(this).text().toLowerCase().indexOf(input) == -1) {
+          $(this).parents('.player').hide();
+        } else {
+          $(this).parents('.player').show();
+        }
+      });
+    });
+  });
+</script>
+</html>

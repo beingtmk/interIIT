@@ -1,0 +1,128 @@
+ <div class="modal fade livescore-modal" id="myModal" style="height:100%">
+  <div class="modal-dialog modal-lg"  style="height:90%; width:90%; max-width:none; margin:auto; margin-top:2.5%;">
+    <div class="modal-content"  style="height:100%">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Live Score</h4>
+        <button type="button" class="close" data-dismiss="modal" style="color:#00a7cc;">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="score-modal" style="text-align:center; height:20%;">
+          <br>
+          <h2 style="margin:auto; color:#00a7cc" id="score-place">Score Loading...</h2>
+        </div>
+        <br>
+      </div>
+      <div class="modal-body" id="parent" style="overflow-y:scroll; height:50%;">
+        <div class="comment-modal" id="scroller" >
+          <br>
+          <h4>Commentary</h4>
+          <!--          <p class="comment-division"></p> -->
+          <div class="comment-list" id="comment-list">
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
+
+<script>
+  function toTitleCase(str) {
+    return str.replace(/(?:^|\s)\w/g, function(match) {
+      return match.toUpperCase();
+    });
+  }
+
+  function getComments(){
+    if(($("#parent").innerHeight()+$("#parent").scrollTop()-$("#parent")[0].scrollHeight)>=-1){
+      if(comments_till===0){
+        $("#comment-list").append("<p class='comment-division' style='color:lightgrey'>End of Comments</p>");
+        comments_till--;
+      }
+      else if(comments_till===-1){
+        return;
+      }
+      else{
+        status = 0;
+        socket.emit("load_comment",{"comment_id":comments_till});
+      }
+    }
+  }
+  var url = "https://interiit.com/";
+  var sport;
+  var socket;
+  var comments_till = undefined;
+  var match_id;
+  var status; 
+  function connect_socket(){
+    socket = io.connect(url,{"path":"/nodeserver","query":"match_id="+match_id+"&sport="+sport});
+    socket.on('score_update',function(msg){
+      $("#score-place").html(msg);
+    })
+    socket.on('comment',function(msg){
+      $("#parent").scrollTop(0);
+      $("#comment-list").prepend("<p class='comment-division'>" + msg + "</p>");
+      document.getElementsByClassName("comment-division")[0].style.backgroundColor = "#00a7cc";
+      document.getElementsByClassName("comment-division")[0].style.color = "white";
+      setTimeout(function(){
+        document.getElementsByClassName("comment-division")[0].style.backgroundColor = "transparent";
+        document.getElementsByClassName("comment-division")[0].style.color = "black";
+      },500)
+    })
+    socket.on('add_comment',function(msg){
+      comments_till = msg["comment_id"];
+      console.log(comments_till);
+      for(var i in msg["comments"]){
+        $("#comment-list").append("<p class='comment-division'>"+msg["comments"][i]+"</p>");
+      }
+      getComments();
+      status = 1;
+    });
+
+    $("#parent").on('scroll',function(){
+      if(status==1){
+        getComments();
+      }
+    });
+
+    $("#get_more").on("click",function(){
+      if(comments_till===0){
+        $("#comment-list").append("<p class='comment-division' style='color:lightgrey'>End of Comments</p>");
+        comments_till--;
+      }
+      else if(comments_till===-1){
+        return;
+      }
+      else{
+        socket.emit("load_comment",{"comment_id":comments_till})
+      }
+    });
+  }
+  $(".modalopen").on("click",function(){
+    sport = $(this).data("sport");
+    match_id = $(this).data("id");
+    comments_till = undefined;
+    connect_socket();
+    status = 1;
+    $("#modal-title").html("Live Score " + toTitleCase($(this).data("title").toLowerCase()));
+    $("#myModal").modal('toggle');
+  });
+  $('#myModal').on('hidden.bs.modal', function () {
+    $("#comment-list").html(" ");
+    $("#score-place").html("Score Loading ...");
+    socket.disconnect();
+  })
+</script>

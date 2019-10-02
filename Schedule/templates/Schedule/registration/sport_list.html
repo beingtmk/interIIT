@@ -1,0 +1,22 @@
+{% extends 'Schedule/base.html' %}
+
+{% load custom_tags %}
+
+{% block content %}
+<div class="container">
+
+  <div class="jumbotron"><h2>INTER IIT SPORTS (Approval Portal)</h2></div>
+{% if latest_sport_list %}
+    {% for sport in latest_sport_list %}
+        <table class="table table-bordered table-hover">
+          <tr>
+            <td><a onclick="window.location='{% url 'player_list_staff' sport|get_slug %}'" class="btn">{{ sport }}</a></td>
+          </tr>
+        </table>
+    {% endfor %}
+{% else %}
+    <p>No sports are available.</p>
+{% endif %}
+</div>
+
+{% endblock %}

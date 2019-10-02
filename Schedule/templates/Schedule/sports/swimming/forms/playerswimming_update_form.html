@@ -1,0 +1,34 @@
+{% extends 'Schedule/base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+<!-- datepicker css -->
+<!-- <link rel="stylesheet" href="/jquery-ui/jquery-ui.min.css"> -->
+<link rel="stylesheet" href="{% static 'Schedule/jquery-ui/jquery-ui.min.css' %}" />
+<link rel="stylesheet" href="{% static 'Schedule/bootstrap-timepicker/css/bootstrap-timepicker.min.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container form-group">
+  <br />
+  <div class="row">
+    <div class="col-lg-6">
+      <h1>Update the Entry!</h1>
+    </div>
+    <div class="col-lg-6">
+      <br/>
+      <button onclick="window.location='{% url 'index' %}'"type="button" class="btn btn-success">Go Back</button>
+    </div>
+  </div>
+  <hr/>
+
+  <form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <br />
+    <button type="submit" class="btn btn-primary">Next</button>
+  </form>
+</div>
+{% endblock %}

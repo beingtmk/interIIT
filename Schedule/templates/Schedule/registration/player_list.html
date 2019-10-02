@@ -1,0 +1,154 @@
+
+{% extends 'Schedule/base.html' %}
+
+{% load custom_tags %}
+
+{% load render_table from django_tables2 %}
+
+{% load static %}
+
+{% block title %}
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/style4.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/playerReg/bootstrap.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/playerReg/bootstrap.min.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="all">
+<div class="info">
+	<div>
+		<div class="row padding">
+			<div class="col-lg-6 col-md-6">
+				<h2> Player Registered From Your IIT</h2>
+				<hr class="my-4"  size="30" color="#00a7cc" />
+			</div>
+			<div class="col-lg-3 col-md-3">
+				<div class="sportdropbox">
+					<form>
+    				<select id='sel1' data-placeholder="Choose a Sport..." class="chosen-select-deselect" tabindex="-1" >
+                    <option value="athletics">Athletics</option>
+                    <option value="badminton">Badminton</option>
+                    <option value="basketball">Basketball</option>
+                    <option value="cricket">Cricket</option>
+                    <option value="football">Football</option>
+                    <option value="hockey">Hockey</option>
+                    <option value="squash">Squash</option>
+                    <option value="tennis">Tennis</option>
+                    <option value="table_tennis">Table Tennis</option>
+                    <option value="volleyball">Volley Ball</option>
+                    <option value="weight_lifting">Weightlifting</option>
+                    <option value="water_polo">Water Polo</option>
+                    <option value="swimming">Swimming</option>
+
+    				<script src="./Chosen/jquery-3.2.1.min.js.download" type="text/javascript"></script>
+					<script src="./Chosen/chosen.jquery.js.download" type="text/javascript"></script>
+					<script src="./Chosen/prism.js.download" type="text/javascript" charset="utf-8"></script>
+					<script src="./Chosen/init.js.download" type="text/javascript" charset="utf-8"></script>
+
+					<script type="text/javascript">
+ 					 $(".chosen-select-deselect").chosen({ allow_single_deselect: true });
+					</script>
+
+
+					</select>
+					</form>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-3">
+			<!-- <div class="input-group">
+        <input type="text" placeholder="Search.." id="player-search" aria-describedby="sizing-addon1" class="form-control">
+        <span class="input-group-addon" id="sizing-addon1"><i class="fa fa-search" aria-hidden="true"></i></span>
+      </div> -->
+      <br>
+      <a href="{% url 'player_export' %}" class='btn btn-primary'>Export ALL Approved Players</a>
+			</div>
+		</div>
+    <div class="row ">
+    {% if data.players %}
+      {% regroup data.players by approved_status as player_list %}
+      <div class="col-lg-12">
+      <ul class="nav nav-tabs">
+
+        {% for approved_status in player_list %}
+          <li class="nav-item ">
+            <button type="button" class="{{forloop.counter0|yesno:', active'}} btn btn-lg btn-primary" data-toggle="tab" href="#{{ forloop.counter }}">
+            <!-- <a class="nav-link {{forloop.counter0|yesno:', active'}}" data-toggle="tab" href="#{{ forloop.counter }}"> -->
+              {% if approved_status.grouper %} Approved {% else %} Disapproved{% endif %}
+          </button>
+          </li>
+        {% endfor %}
+      <!-- </div> -->
+      </ul>
+  	 </div>
+  </div>
+		<!-- <div class="row ">
+			<div class="col-lg-12">
+				<button type="button" class="btn btn-lg btn-primary">Approved</button>
+				<button type="button" class="btn btn-lg btn-primary">Disapproved</button>
+			</div>
+		</div> -->
+	</div>
+</div>
+  <br>
+  <!-- bhjg -->
+
+  <div class="players">
+
+        <!-- <div class="col-lg-12 nav nav-tabs">
+          <button type="button" class="btn btn-lg btn-primary active">Approved</button>
+          <button type="button" class="btn btn-lg btn-primary">Disapproved</button>
+        </div> -->
+      <div class="tab-content">
+        {% for approved_status in player_list %}
+          <div id="{{forloop.counter}}" class="tab-pane {{forloop.counter0|yesno:' fade, active'}}">
+            {% for player in approved_status.list %}
+              <div class="row padding ">
+                <div class="col-lg-3 col-md-4 col-xm-3">
+                  <img src="https://interiit.com/media/{{player.photo}}"  class="profileImg"/>
+                </div>
+                <div class="profile col-lg-6 col-md-4 col-xm-9">
+                  <h3 class="player-name">{{ player.name }}</h3><br />
+                  <span>Status : </span>{{ player.approved_status }}<br />
+                  <span>College : </span>{{ player.team.college }}<br />
+                  <span>Category : </span>{{ player.category }}<br />
+                  <span>Events : </span>{{ player.event.all|concat_events }}<br />
+                </div>
+                <div class="col-lg-3 col-md-4 col-xm-9">
+                  {% if request.user.is_authenticated %}
+                    {% if player.approved_status %}
+                      <button type="button" onclick="window.location='{% url 'player_approve_toggle' player.id %}'" class="approve btn btn-primary" style="background: #d9534f">Disapprove</button><br>
+                    {% else %}
+                      <button type="button" onclick="window.location='{% url 'player_approve_toggle' player.id %}'" class="approve btn btn-primary" style="background: #1fc500">Approve</button><br>
+                    {% endif %}
+                    <button type="button" onclick="window.location='{% url 'playerupdate' player.id %}'" class="update btn btn-primary" style="background: #00a7cc">Update</button><br>
+                    <button type="button" onclick="window.location='{% url 'playerdelete' player.id %}'" class="delete btn btn-primary" style="background: #c60036">Delete</button><br>
+                  {% endif %}
+                </div>
+              </div>
+              <hr>
+            {% endfor %}
+          </div>
+        {% endfor %}
+
+    {% else %}
+      <p>No players are available</p>
+    {% endif %}
+  </div>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.chosen-select-deselect').chosen({ allow_single_deselect: true }).val("{{ data.sport }}").trigger('chosen:updated');
+    $('.chosen-select-deselect').chosen({ allow_single_deselect: true }).change(function() {
+      var url = '/registration/staff/player_list/' + $(this).val();
+      window.location.href = url;
+    })
+  });
+</script>
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

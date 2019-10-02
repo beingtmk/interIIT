@@ -1,0 +1,35 @@
+
+{% extends 'Schedule/base.html' %}
+
+{% load render_table from django_tables2 %}
+{% load querystring from django_tables2 %}
+
+
+{% load static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<br><br>
+<div class="container" >
+  <h1 class='heading_default'>Staff Registered :</h1>
+
+  <br>
+  <button onclick="window.location.href='{% querystring '_export'='xls' %}'" class='btn btn-success'> Export</button>
+
+  <br><br>
+  <div class="" style="overflow-x:auto;">
+
+    {% render_table table %}
+  </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

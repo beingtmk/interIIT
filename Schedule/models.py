@@ -1,0 +1,764 @@
+## import required functions
+from django.db import models
+from datetime import datetime
+from phonenumber_field.modelfields import PhoneNumberField
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
+from django.contrib.auth.models import User
+import os
+from django.core.exceptions import ValidationError
+import random, string
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.files.images import get_image_dimensions
+from django.urls import reverse
+
+
+# Choices for different fields
+SPORT_CHOICES = (
+    ('athletics', 'Athletics'),
+    ('badminton', 'Badminton'),
+    ('basketball', 'Basketball'),
+    ('cricket', 'Cricket'),
+    ('football', 'Football'),
+    ('hockey', 'Hockey'),
+    ('squash', 'Squash'),
+    ('tennis', 'Tennis'),
+    ('table_tennis', 'Table Tennis'),
+    ('volleyball', 'Volleyball'),
+    ('weight_lifting', 'Weight Lifting'),
+    ('water_polo', 'Water Polo'),
+    ('swimming', 'Swimming'),
+)
+
+
+LEVEL_CHOICES = (
+    ('Heat 1', 'Heat 1'),
+    ('SemiFinal 1', 'SemiFinal 1'),
+    ('SemiFinal 2', 'SemiFinal 1'),
+    ('Finals', 'Finals'),
+    ('Round 1', 'Round 1'),
+    ('Quarter Final', 'Quarter Final'),
+    ('Semi Final', 'Semi Final'),
+    ('Final', 'Final'),
+    ('Pool A', 'Pool A'),
+    ('Pool B', 'PoolB'),
+    ('Pool C', 'Pool C'),
+    ('Pool D', 'Pool D'),
+    ('Group A', 'Group A'),
+    ('Group B', 'Group B'),
+    ('Group C', 'Group C'),
+    ('Group D', 'Group D'),
+    ('TTF','TTF'),
+)
+
+CATEGORY_CHOICES = (
+    ('MEN', 'MEN'),
+    ('WOMEN', 'WOMEN'),
+)
+
+MEDAL_CHOICES = (
+    ('GOLD', 'GOLD'),
+    ('SILVER', 'SILVER'),
+    ('BRONZE', 'BRONZE'),
+    ('FOURTH', 'FOURTH'),
+)
+
+## GLOBAL Models
+class Event(models.Model):
+    sport = models.CharField(max_length=20, choices=SPORT_CHOICES)
+    event = models.CharField(max_length=30)
+    code = models.CharField(max_length=8, default='DEFAULT')
+    is_relay = models.BooleanField(default=False)
+    is_women = models.BooleanField(default=True)
+    is_men = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.code + " " + " ".join(self.sport.split("_")).upper() + "  " + self.event
+
+
+class Team(models.Model):
+    college = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.college
+
+class Person(models.Model):
+    bgs=[
+    ('A+', 'A+'),
+    ('A-', 'A-'),
+    ('B+', 'B+'),
+    ('B-', 'B-'),
+    ('AB+', 'AB+'),
+    ('AB-', 'AB-'),
+    ('O+', 'O+'),
+    ('O-', 'O-'),
+    ]
+
+    foods=[
+    ('VEGETARIAN','Vegetarian'),
+    ('NON-VEGETARIAN', 'Non-Vegetarian'),
+    ]
+
+    def path_and_rename(instance, filename):
+        upload_to = 'SportsMeet'
+        ext = filename.split('.')[-1]
+        namearray = instance.name.split(' ')
+        namelen = len(namearray)
+        name = ''
+        for i in range(0, namelen):
+            name = name + namearray[i].upper()
+        filename = '{}.{}'.format(''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(16)), ext)
+        return os.path.join(upload_to, filename)
+
+    def validate_image(fieldfile_obj):
+        try:
+            filesize = fieldfile_obj.file.size
+            w, h = get_image_dimensions(fieldfile_obj.file)
+            megabyte_limit = 10
+            if filesize > megabyte_limit*1024*1024 or w < 959 or h < 1279 :
+                raise ValidationError("Please make sure that file size is less than %sMB and Minimum Resolution is height is 1280 and width is 960" % str(megabyte_limit))
+        except FileNotFoundError:
+            pass
+
+    name = models.CharField(max_length=20)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default=CATEGORY_CHOICES[0][0])
+    blood_group = models.CharField(max_length=5, choices=bgs, null=True)
+    mobile_no = PhoneNumberField()
+    email = models.EmailField()
+    photo = ProcessedImageField(upload_to=path_and_rename, null=True, default=None, processors=[ResizeToFill(960,1280,False)], format='JPEG', options={'quality':100}, validators=[validate_image])
+    food = models.CharField(max_length=20, choices=foods, default=None)
+    nationality = models.CharField(max_length=20, default='Indian')
+
+
+    # Foreign Keys
+    team = models.ForeignKey(Team,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return_str = '''
+        Name : {}
+        Blood Group : {}
+        Mobile No. : {}
+        Email : {}
+        '''.format(
+        self.name,
+        self.blood_group,
+        self.mobile_no,
+        self.email,
+        )
+        return return_str
+
+    class Meta:
+        abstract = True
+
+    def get_photo(self):
+        return '<a href="/media/'+self.photo.name+'">'+self.photo.name+'</a>'
+
+    def save(self, *args, **kwargs):
+        super(Person, self).save(*args, **kwargs)
+        new_name = "SportsMeet/" + str(self.name.upper()) + "_" +  str(self.id) + "." + self.photo.url.split(".")[-1].upper()
+        try:
+       	    os.rename("./media" + self.photo.url.split('media')[-1],"./media/" + new_name.upper())
+        except FileNotFoundError:
+            pass
+        self.photo.name = new_name.upper()
+        try:
+            self.name = self.name.upper()
+        except:
+            pass
+        super(Person, self).save(*args, **kwargs)
+
+
+# Album Model
+# class Photo(models.Model):
+#     def path_and_rename(instance, filename):
+#         upload_to = 'images'
+#         ext = filename.split('.')[-1]
+#         # namearray = instance.name.split(' ')
+#         # namelen = len(namearray)
+#         # name = ''
+#         # for i in range(0, namelen):
+#             # created = create + namearray[i].capialize()
+#         filename = '{}{}'.format(instance.created, ext)
+#         return os.path.join(upload_to, filename)
+#     urls = models.CharField(max_length=10000, blank=True)
+#     created = models.DateTimeField(auto_now_add=True)
+#     image = ProcessedImageField(upload_to=path_and_rename, null=True, default=None, format='JPEG', options={'quality':60})
+
+
+class Photo(models.Model):
+    urls = models.URLField(max_length=1000)
+    created_at = models.DateTimeField(auto_now_add=True)
+    album = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.album
+
+
+class Player(Person):
+    approved_status = models.BooleanField(default=False)
+    event = models.ManyToManyField(Event)
+    images = models.ManyToManyField(Photo,  blank=True)
+
+    @property
+    def events(self):
+        return ', '.join([x.code for x in self.event.all()])
+
+
+class Staff(Person):
+    TYPE_CHOICES=[
+    ('coach', 'COACH'),
+    ('sports_officer', 'SPORTS OFFICER'),
+    ('pti', 'PTI'),
+    ('supporting_staff', 'SUPPORTING STAFF'),
+    ('faculty_advisor', 'FACULTY ADVISOR'),
+    ]
+
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES, )
+    sport = models.CharField(max_length=20, choices=SPORT_CHOICES, blank=True)
+
+    # ARRIVAL/DEPARTURE DETAILS: DATE, TIME, PLACE, MODE, TRAIN/FLIGHT NUMBER
+
+    arrival_date = models.DateField()
+    departure_date = models.DateField()
+
+    arrival_time = models.TimeField()
+    departure_time = models.TimeField()
+
+    arrival_mode = models.CharField(max_length=20, choices=[('train', 'Train'), ('flight', 'Flight')], )
+    departure_mode = models.CharField(max_length=20, choices=[('train', 'Train'), ('flight', 'Flight')], )
+
+    arrival_transport_id =  models.CharField(max_length=100,)
+    departure_transport_id =  models.CharField(max_length=100, )
+
+    arrival_place = models.CharField(max_length=100, )
+    departure_place = models.CharField(max_length=100, )
+
+
+
+# Models for Trivia
+class Trivia(models.Model):
+    title = models.CharField(max_length=50)
+    brief = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.title
+
+class Answer(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    answer = models.CharField(max_length=1000)
+    trivia = models.ForeignKey(Trivia, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.answer
+
+# Profile Model
+class Profile(models.Model):
+
+    user_type =  [
+    ('STAFF','STAFF'),
+    ('ADMIN','ADMIN'),
+    ]
+
+    college = models.ForeignKey(Team,on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user_type = models.CharField(max_length=20, choices=user_type, default='STAFF')
+
+    def __str__(self):
+        return str(self.user) + " - " + str(self.user_type) + " - " + str(self.college)
+
+## BASE Models
+
+# Match Model
+class Match(models.Model):
+
+    date = models.DateField('my date')
+    time = models.TimeField()
+    duration = models.DurationField(null = True, blank = True)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default=CATEGORY_CHOICES[0][0])
+    place = models.CharField(max_length=256, null=True)
+    game_status = models.CharField(max_length=256, null=True, default=-1) #completed or not
+    score_detail = models.TextField(max_length=256, blank=True)
+    game_level = models.CharField(max_length=256, null=True, choices=LEVEL_CHOICES) # like semi-final, final etc
+
+    # Foreign Keys
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    # teams = models.ManyToManyField(Team)
+
+    class Meta:
+        abstract = True
+
+
+## Models for Athletics
+
+# Match Model
+class Athletics(Match):
+    player = models.ManyToManyField(Player, through='PlayerAthletics')
+
+    def __str__(self):
+        return str( str(self.pk) + " - " + str(self.category) + "  " + str(self.date))
+
+    def player_count(self):
+        return self.playerathletics_set.count()
+
+# Points Table Model
+class AthleticsScore(models.Model):
+    team = models.ForeignKey(Team, related_name='teams_athletics', on_delete=models.CASCADE)
+    gold = models.IntegerField(default='0')
+    silver = models.IntegerField(default='0')
+    bronze = models.IntegerField(default='0')
+    fourth = models.IntegerField(default='0')
+    points = models.IntegerField(default='0')
+    pool = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+
+    def __str__(self):
+        return str(self.team)
+
+#Player Model
+class PlayerAthletics(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    athletics = models.ForeignKey(Athletics, on_delete=models.CASCADE, default='')
+    time = models.IntegerField(default=-1)
+    medal = models.CharField(max_length=256,blank=True, choices=MEDAL_CHOICES)
+    update_count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.pk) + " - " + str(self.athletics) + str(" - ") + str(self.player)
+
+
+## Models for Badminton
+
+# Match Model
+class Badminton(Match):
+    score_team1 = models.IntegerField(default='-1')
+    score_team2 = models.IntegerField(default='-1')
+    team1 = models.ForeignKey(Team, related_name='team1', on_delete=models.CASCADE, null=True)
+    team2 = models.ForeignKey(Team, related_name='team2', on_delete=models.CASCADE)
+
+    player = models.ManyToManyField(Player, through='PlayerBadminton')
+    game_status = models.IntegerField(default='-1')
+
+    def __str__(self):
+        return str( str(self.pk) + " - " + str(self.category) + "  " + str(self.date))
+
+    def player_count(self):
+        return self.playerbadminton_set.count()
+
+# Points Table Model
+class BadmintonScore(models.Model):
+    team = models.ForeignKey(Team, related_name='teams_badminton', on_delete=models.CASCADE)
+    match_played = models.IntegerField(default='0')
+    lose = models.IntegerField(default='0')
+    win = models.IntegerField(default='0')
+    points = models.IntegerField(default='0')
+    pool = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+
+    def get_update_form(self):
+        return reverse('badminton_form')
+
+#Player Model
+class PlayerBadminton(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    badminton = models.ForeignKey(Badminton, on_delete=models.CASCADE, default='')
+    score = models.IntegerField(default=-1) #To Remove
+    def __str__(self):
+        return str(self.pk) + " - " + str(self.badminton) + str(" - ") + str(self.player)
+
+
+## Models for BasketBall
+
+# Match Model
+class Basketball(Match):
+    score_team1 = models.IntegerField(default='-1')
+    score_team2 = models.IntegerField(default='-1')
+    team1 = models.ForeignKey(Team, related_name='team1_basketball', on_delete=models.CASCADE) # To Remove null
+    team2 = models.ForeignKey(Team, related_name='team2_basketball', on_delete=models.CASCADE)
+
+    player = models.ManyToManyField(Player, through='PlayerBasketball')
+
+    def __str__(self):
+        return str(self.game_level)
+
+    def player_count(self):
+        return self.playerbasketball_set.count()
+
+# Points Table Model
+class BasketballScore(models.Model):
+    team = models.ForeignKey(Team, related_name='teams_basketball', on_delete=models.CASCADE)
+    match_played = models.IntegerField(default='0')
+    lose = models.IntegerField(default='0')
+    win = models.IntegerField(default='0')
+    points = models.IntegerField(default='0')
+    pool = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+
+    def get_update_form(self):
+        return reverse('basketball_form')
+
+#Player Model
+class PlayerBasketball(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    basketball= models.ForeignKey(Basketball, on_delete=models.CASCADE, default='')
+    score = models.IntegerField(default=-1)
+    def __str__(self):
+        return str(self.pk) + " - " + str(self.basketball) + str(" - ") + str(self.player)
+
+
+## Models for Cricket
+
+# Match Model
+class Cricket(Match):
+    score_team1 = models.IntegerField(default='-1')
+    score_team2 = models.IntegerField(default='-1')
+    wicket_team1 = models.IntegerField(default='-1')
+    wicket_team2 = models.IntegerField(default='-1')
+    over_team1 = models.IntegerField(default='-1')
+    over_team2 = models.IntegerField(default='-1')
+    team1 = models.ForeignKey(Team, related_name='team1_cricket', on_delete=models.CASCADE, null=True)
+    team2 = models.ForeignKey(Team, related_name='team2_cricket', on_delete=models.CASCADE)
+
+    player = models.ManyToManyField(Player, through='PlayerCricket')
+
+    def __str__(self):
+        return str(self.game_level)
+
+    def player_count(self):
+        return self.playercricket_set.count()
+
+# Points Table Model
+class CricketScore(models.Model):
+    team = models.ForeignKey(Team, related_name='teams_cricket', on_delete=models.CASCADE)
+    match_played = models.IntegerField(default='0')
+    lose = models.IntegerField(default='0')
+    win = models.IntegerField(default='0')
+    points = models.IntegerField(default='0')
+    pool = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+
+#Player Model
+class PlayerCricket(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    cricket = models.ForeignKey(Cricket, on_delete=models.CASCADE, default='')
+    score = models.IntegerField(default=-1)
+    def __str__(self):
+        return str(self.pk) + " - " + str(self.cricket) + str(" - ") + str(self.player)
+
+
+## Models for Football
+
+# Match Model
+class Football(Match):
+    score_team1 = models.IntegerField(default='-1')
+    score_team2 = models.IntegerField(default='-1')
+    team1 = models.ForeignKey(Team, related_name='team1_football', on_delete=models.CASCADE, null=True)
+    team2 = models.ForeignKey(Team, related_name='team2_football', on_delete=models.CASCADE)
+
+    player = models.ManyToManyField(Player, through='PlayerFootball')
+
+    def __str__(self):
+        return str(self.game_level)
+
+    def player_count(self):
+        return self.playerfootball_set.count()
+
+
+# Points Table Model
+class FootballScore(models.Model):
+    team = models.ForeignKey(Team, related_name='teams_football', on_delete=models.CASCADE)
+    match_played = models.IntegerField(default='0')
+    lose = models.IntegerField(default='0')
+    win = models.IntegerField(default='0')
+    points = models.IntegerField(default='0')
+    pool = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+
+#Player Model
+class PlayerFootball(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    football = models.ForeignKey(Football, on_delete=models.CASCADE, default='')
+    score = models.IntegerField(default=-1)
+    def __str__(self):
+        return str(self.pk) + " - " + str(self.football) + str(" - ") + str(self.player)
+
+
+## Models for Hockey
+
+# Match Model
+class Hockey(Match):
+    score_team1 = models.IntegerField(default='-1')
+    score_team2 = models.IntegerField(default='-1')
+    team1 = models.ForeignKey(Team, related_name='team1_hockey', on_delete=models.CASCADE, null=True)
+    team2 = models.ForeignKey(Team, related_name='team2_hockey', on_delete=models.CASCADE)
+
+    player = models.ManyToManyField(Player, through='PlayerHockey')
+
+    def __str__(self):
+        return str(self.game_level)
+
+    def player_count(self):
+        return self.playerhockey_set.count()
+
+# Points Table Model
+class HockeyScore(models.Model):
+    team = models.ForeignKey(Team, related_name='teams_hockey', on_delete=models.CASCADE)
+    match_played = models.IntegerField(default='0')
+    lose = models.IntegerField(default='0')
+    win = models.IntegerField(default='0')
+    points = models.IntegerField(default='0')
+    pool = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+
+#Player Model
+class PlayerHockey(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    hockey = models.ForeignKey(Hockey, on_delete=models.CASCADE, default='')
+    score = models.IntegerField(default=-1)
+    def __str__(self):
+        return str(self.pk) + " - " + str(self.hockey) + str(" - ") + str(self.player)
+
+
+## Models for Squash
+
+# Match Model
+class Squash(Match):
+    score_team1 = models.IntegerField(default='-1')
+    score_team2 = models.IntegerField(default='-1')
+    team1 = models.ForeignKey(Team, related_name='team1_squash', on_delete=models.CASCADE, null=True)
+    team2 = models.ForeignKey(Team, related_name='team2_squash', on_delete=models.CASCADE)
+
+    player = models.ManyToManyField(Player, through='PlayerSquash')
+
+    def __str__(self):
+        return str(self.game_level)
+
+    def player_count(self):
+        return self.playersquash_set.count()
+
+# Points Table Model
+class SquashScore(models.Model):
+    team = models.ForeignKey(Team, related_name='teams_squash', on_delete=models.CASCADE)
+    match_played = models.IntegerField(default='0')
+    lose = models.IntegerField(default='0')
+    win = models.IntegerField(default='0')
+    points = models.IntegerField(default='0')
+    pool = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+
+#Player Model
+class PlayerSquash(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    squash = models.ForeignKey(Squash, on_delete=models.CASCADE, default='')
+    score = models.IntegerField(default=-1)
+    def __str__(self):
+        return str(self.pk) + " - " + str(self.badminton) + str(" - ") + str(self.player)
+
+
+## Models for Tennis
+
+# Match Model
+class Tennis(Match):
+    score_team1 = models.IntegerField(default='-1')
+    score_team2 = models.IntegerField(default='-1')
+    team1 = models.ForeignKey(Team, related_name='team1_tennis', on_delete=models.CASCADE, null=True)
+    team2 = models.ForeignKey(Team, related_name='team2_tennis', on_delete=models.CASCADE)
+
+    player = models.ManyToManyField(Player, through='PlayerTennis')
+
+    def __str__(self):
+        return str(self.game_level)
+
+    def player_count(self):
+        return self.playertennis_set.count()
+
+# Points Table Model
+class TennisScore(models.Model):
+    team = models.ForeignKey(Team, related_name='teams_tennis', on_delete=models.CASCADE)
+    match_played = models.IntegerField(default='0')
+    lose = models.IntegerField(default='0')
+    win = models.IntegerField(default='0')
+    points = models.IntegerField(default='0')
+    pool = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+
+#Player Model
+class PlayerTennis(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    tennis = models.ForeignKey(Tennis, on_delete=models.CASCADE, default='')
+    score = models.IntegerField(default=-1)
+    def __str__(self):
+        return str(self.pk) + " - " + str(self.tennis) + str(" - ") + str(self.player)
+
+
+## Models for Table Tennis
+
+# Match Model
+class TableTennis(Match):
+    score_team1 = models.IntegerField(default='-1')
+    score_team2 = models.IntegerField(default='-1')
+    team1 = models.ForeignKey(Team, related_name='team1_tableTennis', on_delete=models.CASCADE, null=True)
+    team2 = models.ForeignKey(Team, related_name='team2_tableTennis', on_delete=models.CASCADE)
+
+    player = models.ManyToManyField(Player, through='PlayerTableTennis')
+
+    def __str__(self):
+        return str(self.game_level)
+
+    def player_count(self):
+        return self.playertabletennis_set.count()
+
+# Points Table Model
+class TableTennisScore(models.Model):
+    team = models.ForeignKey(Team, related_name='teams_tabletennis', on_delete=models.CASCADE)
+    match_played = models.IntegerField(default='0')
+    lose = models.IntegerField(default='0')
+    win = models.IntegerField(default='0')
+    points = models.IntegerField(default='0')
+    pool = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+
+#Player Model
+class PlayerTableTennis(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    tabletennis = models.ForeignKey(TableTennis, on_delete=models.CASCADE, default='')
+    score = models.IntegerField(default=-1)
+
+    def __str__(self):
+        return str(self.pk) + " - " + str(self.tabletennis) + str(" - ") + str(self.player)
+
+
+## Models for VolleyBall
+
+# Match Model
+class Volleyball(Match):
+    score_team1 = models.IntegerField(default='-1')
+    score_team2 = models.IntegerField(default='-1')
+    team1 = models.ForeignKey(Team, related_name='team1_volleyball', on_delete=models.CASCADE, null=True)
+    team2 = models.ForeignKey(Team, related_name='team2_volleyball', on_delete=models.CASCADE)
+    game_level = models.CharField(max_length=256, null=True, choices=LEVEL_CHOICES)  # like semi-final, final etc
+    player = models.ManyToManyField(Player, through='PlayerVolleyball')
+
+    def __str__(self):
+        return str(self.game_level)
+
+    def player_count(self):
+        return self.playervolleyball_set.count()
+
+# Points Table Model
+class VolleyballScore(models.Model):
+    team = models.ForeignKey(Team, related_name='teams_volleyball', on_delete=models.CASCADE)
+    match_played = models.IntegerField(default='0')
+    lose = models.IntegerField(default='0')
+    win = models.IntegerField(default='0')
+    points = models.IntegerField(default='0')
+    pool = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+
+#Player Model
+class PlayerVolleyball(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    volleyball = models.ForeignKey(Volleyball, on_delete=models.CASCADE, default='')
+    score = models.IntegerField(default=-1)
+    def __str__(self):
+        return str(self.pk) + " - " + str(self.volleyball) + str(" - ") + str(self.player)
+
+
+## Models for Weight Lifting
+
+# Match Model
+class WeightLifting(Match):
+    player = models.ManyToManyField(Player, through='PlayerWeightLifting')
+
+    def __str__(self):
+        return str(str(self.category) + "  " + str(self.date))
+
+    def player_count(self):
+        return self.playerweightlifting_set.count()
+
+# Points Table Model
+class WeightLiftingScore(models.Model):
+    team = models.ForeignKey(Team, related_name='teams_weightlifting', on_delete=models.CASCADE)
+    gold = models.IntegerField(default='0')
+    silver = models.IntegerField(default='0')
+    bronze = models.IntegerField(default='0')
+    fourth = models.IntegerField(default='0')
+    points = models.IntegerField(default='0')
+    pool = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+
+#Player Model
+class PlayerWeightLifting(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    weightlifting = models.ForeignKey(WeightLifting, on_delete=models.CASCADE, default='')
+    time = models.IntegerField(default=-1)
+    medal = models.CharField(max_length=256,blank=True, choices=MEDAL_CHOICES)
+    update_count = models.IntegerField(default=0)
+
+
+    def __str__(self):
+        return  str(self.player)
+
+    class Meta:
+        ordering = ['time']
+
+
+## Models for Water Polo
+
+# Match Model
+class WaterPolo(Match):
+    score_team1 = models.IntegerField(default='-1')
+    score_team2 = models.IntegerField(default='-1')
+    team1 = models.ForeignKey(Team, related_name='team1_water_polo', on_delete=models.CASCADE, null=True)
+    team2 = models.ForeignKey(Team, related_name='team2_water_polo', on_delete=models.CASCADE)
+
+    # connect = models.ForeignKey(Match, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.game_level)
+
+    def player_count(self):
+        return self.playerwaterpolo_set.count()
+
+# Points Table Model
+class WaterPoloScore(models.Model):
+    team = models.ForeignKey(Team, related_name='teams_waterpolo', on_delete=models.CASCADE)
+    match_played = models.IntegerField(default='0')
+    lose = models.IntegerField(default='0')
+    win = models.IntegerField(default='0')
+    points = models.IntegerField(default='0')
+    pool = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+
+#Player Model
+class PlayerWaterPolo(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    waterpolo = models.ForeignKey(WaterPolo, on_delete=models.CASCADE, default='')
+    score = models.IntegerField(default=-1)
+    def __str__(self):
+        return str(self.pk) + " - " + str(self.waterpolo) + str(" - ") + str(self.player)
+
+## Models for Swimmiing
+
+# Match Model
+class Swimming(Match):
+    player = models.ManyToManyField(Player, through='PlayerSwimming')
+
+    def __str__(self):
+        return str(str(self.category) + "  " + str(self.date))
+
+    def player_count(self):
+        return self.playerswimming_set.count()
+
+# Points Table Model
+class SwimmingScore(models.Model):
+    team = models.ForeignKey(Team, related_name='team_swimming', on_delete=models.CASCADE)
+    gold = models.IntegerField(default='0')
+    silver = models.IntegerField(default='0')
+    bronze = models.IntegerField(default='0')
+    fourth = models.IntegerField(default='0')
+    points = models.IntegerField(default='0')
+    pool = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+
+# Player Model
+class PlayerSwimming(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    swimming = models.ForeignKey(Swimming, on_delete=models.CASCADE, default='')
+    time = models.CharField(default="-1",max_length=500)
+    medal = models.CharField(max_length=256,blank=True, choices=MEDAL_CHOICES)
+    update_count = models.IntegerField(default=0)
+
+
+    def __str__(self):
+        return str(self.swimming) + str(" ") + str(self.player)
+
+    class Meta:
+        ordering = ['time']

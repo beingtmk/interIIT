@@ -1,0 +1,39 @@
+{% extends 'Schedule/base.html' %}
+{% load static %}
+
+{% load custom_tags %}
+{% block title %}
+<link href="https://fonts.googleapis.com/css?family=Metamorphous|Varela+Round" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Amatic+SC|Caveat|Handlee|Merienda|Metamorphous|Montserrat|Poiret+One|Tangerine" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'Schedule/css/info/style6.css' %}">
+<!--<link rel="stylesheet" href="responsive.css" media = "screen and (max-width:950px)">-->
+<link rel="stylesheet" href="{% static 'Schedule/css/info/common.css' %}">
+
+<meta charset="utf-8">
+{% endblock %}
+
+
+{% block content %}
+  <div class="container-fluid" style='margin:auto!important;'>
+    <br> <br>
+    <span class = "heading"><span class = "inner mobile_heading"><b>Campus Map</b></span></span>
+
+    <br><br><br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+
+      <img class = "image" src ="{% static 'Schedule/img/info/40203197_881922668672790_8676076629342027776_n.png' %}" >
+    </div>
+    <div class="col-md-6 col-sm-12">
+
+      <img class = "image" src="{% static 'Schedule/img/info/campus.png' %}">
+    </div>
+  </div>
+</div>
+
+</div>
+  <br>
+{% endblock %}

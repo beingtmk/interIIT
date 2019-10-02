@@ -1,0 +1,46 @@
+{% load custom_tags %}
+{% regroup date.list by time as group_list %}
+{% for time in group_list%}
+{% for match in time.list%}
+
+  <div class="card  mb-3">
+     <div class="card-header">
+       <ul class="list-inline">
+
+       <li class="list-inline-item">{{match.category}}'s {{match.event.event}}</li>
+       <li class="list-inline-item">Duration: {{ match.duration }}</li>
+       <li class="list-inline-item">Status: {{ match.game_status }}</li>
+     </ul>
+     </div>
+     <div class="card-body">
+        <div class="row">
+           <div class="col-3 c1" >
+              <div class="event">{{ match.game_level }}</div>
+              <div class="time">{{ match.time }}</div>
+              <div class="location">{{ match.place }}</div>
+           </div>
+           <div class="col-6 c2">
+             <!-- <img src="img/iitglogo.png" class="iitlogo"> -->
+             <img src="{{ match.team1.image.url }}" class = "iitlogo">
+
+             <span class="match">V/S</span>
+              <!-- <img src="img/iitblogo.png" class="iitlogo"> -->
+              <img src="{{ match.team2.image.url }}" class = "iitlogo">
+           </div>
+           <div class="col-3 c3"><a class="btn result" href="">Result</a></div>
+        </div>
+     </div>
+
+  </div>
+
+  {% if request.user.is_superuser %}
+    <div class="horizontal pull-right event-modify">
+     <button onclick="window.location='{% url 'badminton_update' match.id %}'" type="button" class="btn btn-success">Update</button>
+
+     <button onclick="window.location='{% url 'badminton_delete' match.id %}'" type="button" class="btn btn-danger">Delete</button>
+    </div>
+  {% else %}
+  {% endif %}
+  <hr>
+{% endfor %}
+{% endfor %}

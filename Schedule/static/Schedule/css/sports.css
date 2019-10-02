@@ -1,0 +1,158 @@
+/* Navbar */
+img.logo{
+height: 7vh;
+margin-left: 10rem;
+}
+.navbar{
+padding-top:15px;padding-bottom: 15px;
+border-bottom: solid 1px #f6f6f6;
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+transition: all 0.3s ease-out;
+background-color:#fff;
+}
+ul.navbar-nav{
+margin-right: 8rem;
+}
+.navbar-nav>li.nav-item{
+font-size: 16px;
+font-weight: bold;
+margin:15px;
+border-bottom: solid 2px transparent;
+}
+.navbar-nav>li.nav-item>.nav-link{
+color:#666666 !important;
+}
+.navbar-nav>li.nav-item>.nav-link:hover{
+color:black !important;
+}
+/*Page 1*/
+.container-fluid{
+position: relative;
+}
+.sportsBox{
+position: absolute;
+bottom: 3rem;left:10%;
+padding: 1%;
+background-color: #FFFFFF;
+border-radius: 5px;
+}
+span.sportsName{
+color: #00A7CC;
+font-size:24px;
+}
+img.sportsImg{
+height: 18vh;
+}
+img.backgroundImage{
+	width: 100%;	
+}
+ul.nav-pills>li.nav-item{
+margin-top:1%;
+padding: 1%;
+line-height: 1.2;
+}
+.nav-pills .nav-link {
+text-align: center;
+border-radius:50%;
+border: solid 0.5px #707070;
+height: 9vh;width:9vh;
+
+color: #707070;
+font-size:16px;
+}
+@media only screen and (max-width:992px){
+img.logo{
+margin-left: 1rem;
+height:2rem;
+}
+.navbar{
+padding: 2%;
+}
+img.sportsImg{
+height: 6vh;
+}
+.sportsBox{
+bottom: 1rem;
+}
+ul.nav-pills{
+margin-left:0;
+}
+.nav-pills .nav-link{
+height: 6vh;width: 6vh;
+font-size: 12px;
+}
+}
+.card{
+border: none;
+margin-left: 1rem;
+margin-top: 1rem;
+}
+.card-header{
+	font-weight: bold;
+}
+.card-header{
+background-color: #00A7CC;
+color: #FFFFFF;
+}
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+color: #fff;
+background-color:#00A7CC ;
+border:none;
+}
+.c1{
+padding: 0;
+}
+.event{
+margin-left: 0;
+color: #333333;
+font-weight: bold;
+}
+.time,.location{
+color: #666666;
+font-size: 16px;
+}
+.c2{
+text-align: center;
+padding: 0;
+}
+img.iitlogo{
+width: 100%
+height:auto;
+max-width: 200px;
+}
+span.match{
+margin-left: 3rem;
+margin-right: 3rem;
+}
+.result{
+background-color: #F8F8F7;
+color: #666666;
+border-radius:2.5rem;
+margin-top: 1rem; 
+}
+.c3{
+text-align: right;
+padding: 0;
+}
+a.result:hover{
+color: #666666;
+}
+@media only screen and (max-width:668px){
+.event,.time,.location{
+font-size: 10px;
+}
+img.iitlogo{
+width:60px;
+}
+span.match{
+font-size:8px;
+}
+.card{
+	margin-left:0;
+}
+span.sportsName{
+	font-size: 16px;
+}
+}
+

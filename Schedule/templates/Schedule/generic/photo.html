@@ -1,0 +1,52 @@
+{% extends 'Schedule/base.html'%}
+{% load static%}
+{%block title%}
+<link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/schedule_index.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/profile.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="container">
+  <br>
+  <div class="heading" style="margin-left:15px; background-color: transparent;">
+    <h2>Gallery</h2>
+    <img src="{% static 'Schedule/img/index/line.png' %}" id="u1">
+  </div>
+  <br>
+  <br>
+
+  <div class="row" style="height:min-content; overflow: hidden;">
+    {%for photo in photos_temp.list%}
+    <div class="col-xs-12 col-sm-6 col-lg-4">
+      <img src="{{photo.urls}}" class="gallery gallery-image">
+    </div>
+    {%endfor%}
+  </div>
+<br>
+<br>
+</div>
+
+{% if photos.has_other_pages %}
+  <div class="pagination btn-group" style="margin:auto; width:fit-content">
+    {% if photos.has_previous %}
+      <a class="btn btn-info" href="?page={{ photos.previous_page_number }}">&laquo;</a>
+    {% else %}
+      <button disabled class="btn btn-info">&laquo;</button>
+{% endif %}
+    {% for i in photos.paginator.page_range %}
+      {% if photos.number == i %}
+        <button class="btn btn-primary">{{ i }}</button>
+      {% else %}
+<a class="btn btn-info" href="?page={{ i }}">{{ i }}</a>
+      {% endif %}
+    {% endfor %}
+    {% if photos.has_next %}
+      <a class="btn btn-info" href="?page={{ photos.next_page_number }}">&raquo;</a>
+    {% else %}
+      <button disabled class="btn btn-info">&raquo;</button>
+    {% endif %}
+  </div>
+<br>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,91 @@
+<!-- Extending the base template containing Navbar and Footer -->
+{% extends 'Schedule/base.html' %}
+
+<!-- Loading static files and custom template tags -->
+{% load static %}
+{% load custom_tags %}
+
+<!-- Include Page specific static files here -->
+{% block title %}
+<link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/style3.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/header.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/stylesfootball.css' %}">
+{% endblock %}
+
+<!-- Include Body of Page Here-->
+{% block content %}
+
+<!-- Sports specific Header -->
+{% include "Schedule/generic/sports/helper/_header.html" %}
+
+
+<div class="container score">
+  <div class="">
+    {% if request.user.is_staff %}
+
+    {% with matches.sport|sport_create as path %}
+    <button onclick="window.location='{% url path %}'" type="button" class="btn btn-primary">Add Entry</button>
+    {% endwith %}
+    {% else %}
+
+    {% endif %}
+  </div>
+
+  {% if matches.matches %}
+  {% regroup matches.matches by date as match_list %}
+  <ul class="nav nav-pills">
+    {% for date in match_list reversed %}
+    {% with date.list|get_total_players as total_players %}
+    <li class="nav-item nav-date">
+      <a data-toggle="pill" href="#{{ forloop.counter }}" class="nav-link date {{forloop.counter0|yesno:',active'}} dateset"><br>{%autoescape off%}{{date.grouper|date:"d\<\b\r\>M"}}{% endautoescape%}<br></a>
+    </li>
+    {% endwith %}
+    {% endfor %}
+  </ul>
+
+<!-- Sports specific Match -->
+<div class="tab-content">
+  {% for date in match_list reversed%}
+  {% with date.list|get_total_players as total_players %}
+  <div id="{{forloop.counter}}" class="tab-pane container {{forloop.counter0|yesno:' fade, active'}}">
+    <div clas="container">
+      <div class="row">
+        <div class="container">
+          {% load staticfiles %}
+          {% load custom_tags %}
+          {% regroup date.list by time as group_list %} <!-- it contains day's event info not player info directly, group day's event based on time -->
+
+          {% for time in group_list reversed%}
+          {% for match in time.list %} <!-- each match info -->
+
+          {% with matches.sport as sport %}
+          {% with sport|sport_match as path %}
+            {% include path %}
+          {% endwith %}
+          {% endwith %}
+
+            {% if request.user.is_staff %}
+            <div class="horizontal pull-right event-modify">
+              <button onclick="window.location='{% url matches.sport|match_update match.id %}'" type="button" class="btn btn-success">Update</button>
+              <button onclick="window.location='{% url matches.sport|match_delete match.id %}'" type="button" class="btn btn-danger">Delete</button>
+            </div>
+            {% else %}
+            {% endif %}
+          {% endfor %}
+          <hr>
+          {% endfor %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endwith %}
+  {% endfor %}
+</div>
+{% include "Schedule/generic/sports/helper/livescore1.html" %}
+
+{% else %}
+<p>No matches are available.</p>
+{% endif %}
+</div>
+{% endblock %}

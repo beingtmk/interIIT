@@ -1,0 +1,23 @@
+{% extends 'Schedule/base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <h1>Add Players playing in this match!</h1>
+  <hr>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <br />
+    <button type="submit" class="btn btn-primary">Finish</button>
+  </form>
+</div>
+
+{% endblock %}

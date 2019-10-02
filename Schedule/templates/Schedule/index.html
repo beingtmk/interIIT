@@ -1,0 +1,222 @@
+
+{% extends 'Schedule/base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}
+  <!--  -->
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/index/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/schedule_index.css' %}">
+{% endblock %}
+
+{% block content %}
+
+  <div class="container-fluid header" style="padding: 0; background-image: url({% static 'Schedule/img/index/bg.JPG' %}),linear-gradient(rgba(0, 167, 204,0.3),rgba(0,167,204,0.3));">
+                  <div class="row above">
+                     <div class="col-md-6">
+                        <div class="header-text">
+                          Get Ready To<br>Show Your Game
+                         <div style="margin-top: 1rem;height: 8vh"></div>
+			</div>
+                     </div>
+                  <div class="col-md-6 leaderboard" style="visibility: hidden">
+                  <div class="box" >
+                    <span class="leaderboardHeading">Leaderboard</span>
+                         <table class="table text-left borderless" >
+                              <thead class="text-left bold">
+                                 <th class="bold">Rank</th>
+                                 <th class="college bold">College</th>
+                                 <th ><img src="{% static 'img/gold.png' %}" class="theadimage"></th>
+                                 <th ><img src="{% static 'img/silver.png' %}" class="theadimage"></th>
+                                 <th ><img src="{% static 'img/bronze.png' %}" class="theadimage"></th>
+                                 <th class="bold">Total</th>
+                              </thead>
+                              <tbody>
+                                 <tr>
+                                    <td class="bold">1</td>
+                                     <td scope="row" class="college bold"><img src="{% static 'Schedule/img/index/IIT_Bombay_logo.png' %}" class="leaderlogo"><span style="margin-left: 0.5rem;">Bombay</span></td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="bold">1</td>
+                                     <td scope="row" class="college bold"><img src="{% static 'Schedule/img/index/IIT_Bombay_logo.png' %}" class="leaderlogo"><span style="margin-left: 0.5rem;">Bombay</span></td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="bold">1</td>
+                                     <td scope="row" class="college bold"><img src="{% static 'Schedule/img/index/IIT_Bombay_logo.png' %}" class="leaderlogo"><span style="margin-left: 0.5rem;">Bombay</span></td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="bold">1</td>
+                                    <td scope="row" class="college bold"><img src="img/IIT_Bombay_logo.png' %}" class="leaderlogo"><span style="margin-left: 0.5rem;">Bombay</span></td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="bold">1</td>
+                                     <td scope="row" class="college"><img src="{% static 'Schedule/img/index/IIT_Bombay_logo.png' %}" class="leaderlogo"><span style="margin-left: 0.5rem;">Bombay</span></td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="bold">1</td>
+                                     <td scope="row" class="college bold"><img src="{% static 'Schedule/img/index/IIT_Bombay_logo.png' %}" class="leaderlogo"><span style="margin-left: 0.5rem;">Bombay</span></td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="bold">1</td>
+                                     <td scope="row" class="college bold"><img src="{% static 'Schedule/img/index/IIT_Bombay_logo.png' %}" class="leaderlogo"><span style="margin-left: 0.5rem;">Bombay</span></td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                 </tr>
+                                   <tr>
+                                    <td class="bold">1</td>
+                                     <td scope="row" class="college bold"><img src="{% static 'Schedule/img/index/IIT_Bombay_logo.png' %}" class="leaderlogo"><span style="margin-left: 0.5rem;">Bombay</span></td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                 </tr>
+                                   <tr>
+                                    <td class="bold">1</td>
+                                     <td scope="row" class="college bold"><img src="{% static 'Schedule/img/index/IIT_Bombay_logo.png' %}" class="leaderlogo"><span style="margin-left: 0.5rem;">Bombay</span></td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                 </tr>
+                                   <tr>
+                                    <td class="bold">1</td>
+                                     <td scope="row" class="college bold"><img src="{% static 'Schedule/img/index/IIT_Bombay_logo.png' %}" class="leaderlogo"><span style="margin-left: 0.5rem;">Bombay</span></td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                 </tr>
+                              </tbody>
+                           </table>
+
+                     </div>
+               </div>
+             </div>
+             <div class="row below">
+                     <div class="col-4 d-none d-md-block">
+                        <div class="icons">
+                          <img src="{% static 'Schedule/img/index/runner.png' %}" class="belowImg1" >
+                          <br><span class="bigtext">23</span> IITs
+                       </div>
+                     </div>
+                     <div class="col-4 d-none d-md-block">
+                      <div class="icons">
+                        <img src="{% static 'Schedule/img/index/college.png' %}" class="belowImg2">
+                        <br><span class="bigtext">3500+</span>  Participents
+                     </div>
+                   </div>
+                     <div class="col-4 d-none d-md-block">
+                      <div class="icons">
+                        <img src="{% static 'Schedule/img/index/trophy.png' %}" class="belowImg3">
+                        <br><span class="bigtext">13</span> Sports
+                      </div>
+                     </div>
+                  </div>
+           </div>
+
+  <section id="page-2">
+    <div class="container padlr0">
+      <br>
+      <div class="heading" style="margin-left:15px;">
+      <h2>Sports</h2>
+      <img src="{% static 'Schedule/img/index/line.png' %}" id="u1">
+      </div>
+    {% if latest_sport_list %}
+      <div class="row sportsRow margfixrow">
+        {% for sport in latest_sport_list %}
+            <div class="col-4 col-md-2 icon_text">
+              <a href="{% url sport|sport_url %}">
+              <div class="sportsBox">
+                 <img class="pictofix" src="{% static sport|sport_logo %}">
+               </div>
+               <br>
+              <span class="sportsText">{{ sport|upper|remove_us }}</span>
+              </a>
+            </div>
+        {% endfor %}
+      </div>
+    {% else %}
+        <p>No sports are available.</p>
+    {% endif %}
+    </div>
+    <br><br>
+  </section>
+  <section id="page-3">
+  <div class="container">
+     <div class="heading">
+        <h2>Galleries</h2>
+        <img src="{% static 'Schedule/img/index/line.png' %}" id="u2">
+     </div>
+     <div class="gallery-section">
+      <div class="row"  >
+     <a href="{% url 'gallery' %}" class="col-12 col-md-4" ><img src="{% static 'Schedule/img/new/1.jpg' %}" class="gallery" data-aos="fade-up"></a>
+     <a href="{% url 'gallery' %}" class="col-12 col-md-4"><img src="{% static 'Schedule/img/new/2.jpg' %}" class="gallery" data-aos="fade-up"  data-aos-delay="50" ></a>
+     <a href="{% url 'gallery' %}" class="col-12 col-md-4"><img src="{% static 'Schedule/img/new/3.jpg' %}" class="gallery" data-aos="fade-up"  data-aos-delay="60" ></a>
+   </div>
+    <div class="row">
+     <a href="{% url 'gallery' %}" class="col-12 col-md-4" ><img src="{% static 'Schedule/img/new/4.jpg' %}" class="gallery" data-aos="fade-up"  data-aos-delay="70" ></a>
+     <a href="{% url 'gallery' %}" class="col-12 col-md-4"><img src="{% static 'Schedule/img/new/5.jpg' %}" class="gallery" data-aos="fade-up"  data-aos-delay="80" ></a>
+     <a href="{% url 'gallery' %}" class="col-12 col-md-4"><img src="{% static 'Schedule/img/new/6.jpg' %}" class="gallery" data-aos="fade-up"  data-aos-delay="90" ></a>
+   </div>
+     <div style="text-align: center;margin-bottom: 2rem"><a href="/gallery/"><button class="btn view"> View More</button></a></div>
+  </div>
+  </div>
+  </section>
+{%comment%}
+<section id="page-4">
+  <div class="container">
+        <div class="heading" >
+        <h2>Sponsors</h2>
+        <img src="{% static 'Schedule/img/index/line.png' %}" id="u2"></div>
+     <div class="sponsors-section row">
+        <a href="" class="sponsors  col-6 col-sm-3"><img src="{% static 'Schedule/img/index/sponsor1.png' %}" class="sponsorsImg" ></a>
+        <a href="" class="sponsors  col-6 col-sm-3"><img src="{% static 'Schedule/img/index/sponsor1.png' %}" class="sponsorsImg"></a>
+        <div class="col-xs-12"><br><br><br></div>
+        <a href="" class="sponsors  col-6 col-sm-3"><img src="{% static 'Schedule/img/index/sponsor1.png' %}" class="sponsorsImg"></a>
+         <a href="" class="sponsors  col-6 col-sm-3"><img src="{% static 'Schedule/img/index/sponsor1.png' %}" class="sponsorsImg"></a>
+        <div class="col-xs-12"><br><br></div>
+   </div>
+  </div>
+  </section>
+  {%endcomment%}
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>  <!--Bootstrap js-->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+  AOS.init();
+  </script>
+
+  <script type="text/javascript" src="{% static 'Schedule/js/index/jquery.pagepiling.js' %}"></script>
+  <!--Main js-->
+  <script type="text/javascript" src="{% static 'Schedule/js/index/main.js' %}"></script>
+  {% endblock %}

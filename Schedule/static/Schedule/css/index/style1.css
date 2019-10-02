@@ -1,0 +1,308 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+*{
+	font-family: 'Lato', sans-serif;
+}
+
+.header-text{
+	color: #FFFFFF;
+	margin-left: 18%;
+	margin-top: 10%;
+	font-size: 6vh;
+	font-weight: 600;
+	font-family: 'Lato', 'sans-serif';
+}
+.days, .hours, .minutes, .seconds {
+  color:#FFFFFF;
+  display: inline-block;
+}
+.numbers{
+	margin-top: 1rem;
+	font-size:8vh;
+}
+.textdays,.textmin,.texthrs{
+	font-size:3vh;
+}
+.textdays{
+	margin-left: 1.5rem;
+}
+img.logo{
+	height: 7vh;
+	margin-left: 7rem;
+}
+/*Navbar*/
+.navbar{
+	padding-top:15px;padding-bottom: 15px;
+	border-bottom: solid 1px #f6f6f6;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+	transition: all 0.3s ease-out;
+	background-color:#fff;
+
+}
+ul.navbar-nav{
+	margin-right: 8rem;
+}
+
+.nav-item{
+	font-size: 16px;
+	font-weight: bold;
+	margin:15px;
+	border-bottom: solid 2px transparent;
+}
+.nav-link{
+	color:#666666 !important;
+}
+.nav-link:hover{
+	color:black !important;
+}
+
+.navbar-toggler {
+    border:none !important;
+
+}
+.section{
+	padding: 0;
+	background-color:#fff;
+}
+
+.header{
+  background-image: url('../img/bg.JPG'),linear-gradient(rgba(0, 167, 204,0.3),rgba(0,167,204,0.3));
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-blend-mode: overlay;
+  width:100%;height:100%;
+  overflow: hidden;
+}
+.box{
+	overflow-y:scroll;
+	background:#FFFFFF;
+	opacity: 0.81;
+	max-height:65vh;
+	float: right;
+	margin-right: 9rem;
+	box-shadow: 0px 0px 45px 0px rgba(102,102,102,0.28);
+	padding-top: 5px;
+}
+
+span.leaderboardHeading{
+	font-size: 2.5vh;
+	font-weight: bold;
+	color: #00A7CC;
+	margin-left: 0.8rem;
+}
+.table thead>tr>th {
+   border-top: none;
+   border-bottom: none;
+}
+.box::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+.fullscreen-video-wrap video{
+  min-height:100%;
+  min-width:100%;
+}
+.table>thead{
+	 border-top: none !important;
+}
+th,td{
+	font-size: 1.8vh;
+	font-weight: normal;
+	color: #707070;
+}
+th.college, td.college{
+	padding-right: 3rem;
+}
+img.theadimage{
+	height: 3vh;
+}
+.leaderboard{
+	padding-top: 2rem;
+	z-index: 3;
+}
+.leaderlogo{
+	height: 3vh;
+}
+.link1{
+	font-size:2.2vh;
+	float: right;
+	margin-right: 1rem;
+	margin-top: -1rem;
+	color: #00A7CC;
+	text-decoration: none;
+}
+.link1:hover{
+	text-decoration: none;
+	color: #00A7CC;
+}
+.row.below{
+	width: 100vw;
+	margin-left: 1px;
+}
+.below{
+	margin-top:1rem;
+	position: relative;
+	height:20vh;
+	width: 100%;
+	background-color: #00A7CC;
+	opacity: 0.7;
+	color: #fff;
+	font-size: bold;
+	text-align: center;
+	z-index:1;
+}
+.below:after{
+	position: relative;
+	height:100%;width: 100%;
+	top:-20vh;bottom:0;left: 0;right: 0;
+	background-color: inherit;
+	transform: top left;
+	transform: skewY(-2deg);
+	z-index: -1;
+	content: '';
+}
+
+
+.belowImg1,.belowImg2,.belowImg3{
+	height: auto;width:20%;
+}
+span.bigtext{
+	font-weight: bold;
+	font-size:3vh;
+}
+@media only screen and (max-width:992px){
+	img.logo{
+		margin-left: 1rem;
+	}
+	.navbar{
+		padding: 2%;
+	}
+	.header{
+		background-image: none;
+		background-color: rgba(0, 167, 204,0.3);
+		padding: 5%;
+	}
+	.header-text{
+		font-size:54px;
+		margin:0;
+		text-align:left;
+	}
+	.box{
+		display: none;
+	}
+		.below{
+		display: none;
+	}
+}
+#page-2{
+	padding-top: 2%;padding-bottom: 2%;
+}
+img#u1{
+	width:5.5rem;
+}
+img#u2{
+	width:7.5rem;
+}
+img#u3{
+	width:7.5rem;
+}
+.heading h2{
+	font-family: 'Lato','sans-serif';
+	font-weight: bold;
+	color: #707070;
+	letter-spacing: 1px;
+	margin-top: 1rem;
+
+}
+.heading img{
+	margin-top: -2rem;
+}
+.sportsBox{
+	text-align: center;
+	width:80%;height: auto;
+	padding: 10%;
+	box-shadow: 0px 3px 12px 0px rgba(0,168,202,0.17);
+	transition: transform .2s;
+}
+.sportsBox img{
+	height:70px;
+}
+.sportsBox:hover{
+	transform: scale(1.1);
+	cursor: pointer;
+}
+.sportsText{
+	margin-left:25%;
+}
+.sportsRow{
+	padding-top:2%;
+}
+@media only screen and (max-width:780px){
+	.sportsBox{
+
+
+	}
+	.sportsBox img{
+		height:50px;
+	}
+	.sportsText{
+		display: none;
+	}
+	.heading h2{
+		margin-left:
+	}
+	.sportsRow{
+	margin-left:0.5rem;
+}
+}
+#page-3{
+	padding-top: 2%;padding-bottom: 2%;
+	background: #f9feff;
+}
+img.gallery{
+	width:100%;
+	height:auto;
+	margin-bottom: 2rem;
+}
+button.view{
+	color: #707070;
+	border: solid 0.5px #707070;
+	background: #FFFFFF;
+}
+button.view:hover{
+	background: #00A7CC;
+	color: #FFFFFF;
+	border: solid 0.5px #00A7CC;
+	transition: all 0.2s ease-in;
+}
+#page-4{
+	padding-top: 2%;padding-bottom: 3%;
+}
+img.sponsorsImg{
+	height:auto;width:60%;
+}
+.sponsors-section{
+	padding: 5%;
+}
+
+@media only screen and (max-width:772px){
+	img.sponsorsImg{
+	height:auto;width:100%;
+	}
+
+	.boxes{
+		margin-bottom:5%;
+	}
+	img.sponsorsImg{
+		height: 32px;
+	}
+
+}
+.social .box-holder:hover{
+	opacity:1;
+}
+
+.footer{
+	background-color: #f9feff;
+	width: 100%;
+	padding-top:2%;padding-bottom: 2%;
+}

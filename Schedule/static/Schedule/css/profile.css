@@ -1,0 +1,373 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,500,700');
+
+html, body{
+	height:100%;
+	width: 100%;
+	font-family: 'Lato', sans-serif;
+	color:#222;
+}
+h1,h2,h3,h4,h5,h6{
+	text-transform: none !important;
+}
+.highlight{
+	color:blue !important;
+}
+/* .mini-nav{
+  display: flex;
+  flex-flow: wrap;
+  flex-direction: horizontal;
+  } */
+  .button-search{
+  	margin-right: auto !important;
+  }
+  .button1{
+  	padding-top:10px;
+  	margin-top: 20px;
+  	border-radius: 30px!important;
+  	margin-left:40px;
+  	margin-top:50px;
+  	height:50px!important;
+  }
+  .input-box{
+  	height: 50.5% !important;
+  	width: 80% !important;
+  }
+  .other-button{
+  	margin-right: 20px;
+  }
+  .col-lg-7 input{
+  	height: 50px;
+  	margin-left: 45px;
+  	width:350px;
+  	padding-left:10px;
+  	border :black 1px solid;
+  	border-right: white;
+  	font-size: 20px !important;
+  	display: inline;
+  }
+  .input-div{
+  	padding-top: 20px;
+  	margin-left: 40px;
+  	margin-right: 50px;
+  }
+  .search{
+  	height: 50.5%;
+  	margin-top: 40px;
+  	background-color: white;
+  	border :black 1px solid;
+  	border-radius: 2px;
+  	border-left:white ;
+  	display: inline;
+  	padding-top: 3px;
+  }
+
+  .fa{
+  	height:20px!important;
+  	width:30px!important;
+  }
+  .player{
+  	margin-left: 40px;
+  	margin-top: 90px;
+  	font-weight: 600;
+  	font-size:45px;
+
+  }
+  .hrange{
+  	display: inline-block;
+  	width: 140px;
+  	border: solid #00a7cc;
+  	border-top: 2px;
+  	margin-right: 11px;
+  	margin-left: 40px;
+  }
+  .hrange2{
+  	display: inline-block;
+  	width: 28px;
+  	border: solid #00a7cc;
+  	border-top: 2px;
+  	margin-right: 1%;
+  }
+  .profile-img{
+  	width:80%;
+  	height:	100%;
+  	margin-left:40px;
+  	max-height: 300px;
+  	max-width: 300px;
+  	min-height: 200px;
+  	min-width: 200px;
+  	/*margin-top: 45px;*/
+  	border :#00a7cc 2px solid;
+  	border-radius: 5px;
+  }
+  .profile-div{
+  	position: relative;
+  }
+  .info{
+  	padding-left: 80px;
+  	padding-right: 0px;
+  	margin-left: 0 !important;
+  	color:#666666;
+  }
+  .info span{
+  	line-height: 40px;
+  	font-weight: bold;
+  }
+  .bio1{
+  	padding-top: 90px;
+  	padding-left: 40px;
+  }
+  .game{
+  	position: absolute;
+  	bottom: 12%;
+  	left: 20%;
+  	height:40px;
+  	width:40px;
+  	/*float :right;*/
+	/*margin-top:-50px;
+	margin-left:0;*/
+}
+
+.test{
+	display: flex;
+	flex-direction: horizontal;
+	justify-content: space-between;
+}
+.heading{
+	height:50px;
+	width:100%;
+	background-color: #00A7CC;
+	padding-top: 13px;
+	color:white;
+	margin-top:20px;
+}
+.col-lg-3{
+	margin-left:-15px;
+	line-height:25px;
+}
+.col-lg-3 span{
+	margin-top:60px;
+	font-weight: bold;
+}
+
+.circle{
+	height: 100px;
+	width: 100px;
+	background-color: #FAFAFA;
+	border-radius: 50%;
+}
+.circle img{
+	height: 100px;
+	width: 100px;
+	z-index: 1;
+	padding: 9px;
+	border-radius: 50%;
+}
+.rectangle{
+	float: right;
+	height: 60px;
+	width: 170px;
+	background-color: #FAFAFA;
+	margin-top: -77px;
+	color:#666666;
+	padding-left:35px;
+	vertical-align: center;
+	padding-top:17px;
+}
+.details{
+	display: flex;
+	flex-direction: horizontal;
+	justify-content: space-around;
+}
+.vs{
+	text-align: center;
+	vertical-align: center;
+	margin-top: 35px;
+	margin-left: 20px;
+}
+.extraleft{
+	margin-left: 5px;
+}
+
+.gallery-image{
+	width:100%;
+	padding: 5px;
+	padding-bottom: 10px;
+}
+
+.col-lg-1 button{
+	width:80px;
+	font-size:14px;
+	height: 40px!important;
+	border-radius: 20px !important;
+	margin-top: 30px;
+	background-color: #FAFAFA !important;
+}
+.matches{
+	display: block;
+}
+@media (max-width: 600px) {
+	.input-div{
+		margin-left:0px;
+	}
+}
+
+@media (max-width: 768px){
+	.details{
+		display: block;
+	}
+	.info{
+		margin-top: 20px;
+	}
+	.gallery-image{
+		height:auto;
+	}
+}
+@media (min-width:552px) and (max-width:768px) {
+	.game{
+		left: 30%;
+	}
+}
+
+@media (min-width: 1240px) and (max-width:1300px){
+	.hi{
+		display: none !important;
+	}
+}
+/*
+@media (min-width:960px) and (max-width:1200px){
+   .game{
+    left:80px ;
+  }
+}
+ @media (min-width:600px) and (max-width:960px){
+   .game{
+    left: 60%;
+  }
+  } */
+
+  @media (max-width: 1025px){
+
+  	.extraleft{
+  		margin-left: 0;
+  	}
+  	.team-icon{
+  		width: 100%;
+  		margin: 0 auto;
+  	}
+  	.btn-div{
+  		width: 25%;
+  		margin: 0 auto;
+  	}
+  	.hi{
+  		padding-left: 0 !important;
+  	}
+  }
+
+  @media (max-width: 560px){
+  	.info{
+  		margin-left: 0;
+  		margin-top: 20px;
+  		padding-left: 20px;
+  		padding-right: 20px;
+  	}
+  	.heading{
+  		width: 90%;
+  		margin: 0 auto;
+  	}
+  	.match-status{
+  		width: 60%;
+  		text-align: center;
+  		margin: 0 auto;
+  		align-items: : center;
+  	}
+  	.team-icon{
+  		width: 100%;
+  		margin: 0 auto;
+  	}
+  	.btn-div{
+  		display: block;
+  		width: 40%;
+  		margin: 0 auto;
+  	}
+  	.bio1{
+  		padding-left: 0;
+  		padding-top: 0px;
+  		margin-left: 20px;
+  	}
+  	.player{
+  		margin-left: 20px;
+  	}
+  	.mini-nav{
+  		display: block;
+  	}
+  	.input-div{
+  		margin-right: 20px;
+  	}
+  	.input-box{
+  		width: 70% !important;
+  		height: 30px !important;
+  		margin-left: 20px!important;
+  	}
+  	.button1{
+  		display: block;
+  		margin-left: 20px;
+  		width: 80%;
+  		margin-right: 20px;
+  	}
+  	.hrange,.profile-img{
+  		margin-left: 20px;
+
+  	}
+  	.matches{
+  		display: block;
+  	}
+  	.heading,.matches{
+  		text-align: center !important;
+  	}
+  	.profile-div{
+  		margin-left: 20px;
+  		margin-right: 20px;
+  	}
+  	.matches{
+  		margin-left: auto;
+  		margin-right: auto;
+  	}
+
+  }
+
+  @media (max-width: 960px){
+  	.profile-div{
+  		text-align: center;
+  		margin-left: 10%;
+  	}
+
+  	.matches{
+  		display: block;
+  		text-align: center !important;
+  	}
+  	.container-player{
+  		max-width:none;
+  		margin:auto;
+  	}
+  }
+
+  .detail-left{    
+  	border-bottom: 2.5px solid #00a7cc;
+  	border-radius: 2px;
+  }
+
+  .banner{
+    border-top:2px solid whitesmoke;
+    border-bottom:2px solid whitesmoke;
+    text-align: center;
+  }
+  .banner_head{
+    margin:5px auto;
+  }
+
+@media (min-width: 552px){
+  .box-75{
+    max-width:75%!important;
+    margin:auto!important;
+  }
+}

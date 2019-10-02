@@ -1,0 +1,105 @@
+{% extends 'Schedule/base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}
+ <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/athletes.css' %}">
+{% endblock %}
+
+
+{% block content %}
+  <div class="searchBox">
+
+		<div class="container-fluid titleSearchBar">
+ <div class="heading" style="background-color:transparent; color:#707070; margin-bottom:0px;">
+<br>
+   <h2>Athletes</h2>
+   <img src="{% static 'Schedule/img/index/line.png' %}" id="u2" style="margin-bottom:20px;">
+ </div>
+		</div>
+
+		<div class="container-fluid box rounded">
+			<form class="form1" id='player' name='player' action='{% url 'search' %}' method='post'>
+        {% csrf_token %}
+  			<div class="row">
+    				<div class="col-sm-12 col-md-4  list">
+      					<input type="text" id='name' name='name' class="form-control input_name buttons" placeholder="Name..." aria-label="player">
+    				</div>
+    		    <div class="col-sm-6 col-md-3 list">
+              <div class="  form-group">
+                <select class="buttons form-control" id="sel1" name='iit'>
+                  <option>ALL IIT's</option>
+                  {% for iit in iits %}
+                    <option>{{iit}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+          </div>
+          <div class="col-sm-6 col-md-3 list">
+            <div class="  form-group">
+              <select class="buttons form-control" id="sel1" name='sport'>
+                <option>All Sports</option>
+                {% for sport in sports%}
+                  <option>{{sport}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+  				<div class="col-sm-6 col-md-2 mx-auto list">
+    					<button type="submit" class="btn btn-md buttons pull-right searchButton">Search</button>
+  				</div>
+
+				</div>
+      </form>
+		</div>
+	</div>
+
+<br>
+<div class="container-fluid allPlayers" style="width:99%;">
+  <div class="row rowPlayers">
+    {% for player in players %}
+    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 firstPlayer SearchedPlayer"> -->
+
+    <div class="card col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+          <div class="ImgCard">
+          <a href="{% url 'player_profile' player.id %}"><img class="card-image" src="https://interiit.com/media/{{player.photo}}" alt="profile"></a>
+          <img class="iconGame" src="{% static 'Schedule/img/pictograms' %}/{{player.event.all.0.sport}}.png"> 
+          
+	</div>
+          <h5 class="headingPlayer card-title"><a href="{% url 'player_profile' player.id %}">{{player.name |title }}</a></h5>
+          <p class="card-text text-muted">{{player.team.college}}</p>
+	
+    </div>
+
+    {% endfor %}
+
+</div>
+</div>
+
+
+{% if players.has_other_pages %}
+  <div class="pagination btn-group" style="margin:auto; width:fit-content">
+    {% if players.has_previous %}
+      <a class="btn btn-info" href="?page={{ players.previous_page_number }}">&laquo;</a>
+    {% else %}
+      <button disabled class="btn btn-info">&laquo;</button>
+{% endif %}
+    {% for i in players.paginator.page_range %}
+      {% if players.number == i %}
+        <button class="btn btn-primary">{{ i }}</button>
+      {% else %}
+<a class="btn btn-info" href="?page={{ i }}">{{ i }}</a>
+      {% endif %}
+    {% endfor %}
+    {% if players.has_next %}
+      <a class="btn btn-info" href="?page={{ players.next_page_number }}">&raquo;</a>
+    {% else %}
+      <button disabled class="btn btn-info">&raquo;</button>
+    {% endif %}
+  </div>
+<br>
+{% endif %}
+
+
+
+{% endblock %}

@@ -1,0 +1,102 @@
+{% load static %}
+{% load custom_tags %}
+
+<div class="event-details">
+  <div class="eventDate">
+    <span>{{match.category}}'s Team {{match.event.event}}</span>
+  </div>
+  <div class="row event" id="accordion{{match.id}}">
+    <div class="col-lg-3 col-md-4 col-sm-12" style="color:black;">
+      <span class="normal-text">{{ match.time }}<span>
+        <br />
+        <span class="normal-text">{{ match.place }}</span>
+      </div>
+      <div class="col-lg-6 col-md-4 col-sm-12 eventName">
+       <span style="color:black;">{{ match.game_level }}</span>
+     </div>
+     <div class="col-lg-3 col-md-4 col-sm-12">
+      <div class="playerLink">
+        <a data-toggle="collapse" data-parent="#accordion{{match.id}}" href="#collapse{{match.id}}" style="color:black;"><b>Results</b><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></a>
+
+        {% if match.game_status == "1" %}
+        <br>
+        <a class="modalopen" data-title="{{match.event}}" data-id="{{match.id}}" >
+          Live Score
+        </a>
+        {%endif%}
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="collapse{{match.id}}" class="panel-collapse collapse in playerList" style="overflow-x:scroll;">
+    <hr />
+    <h2>Player Details</h2>
+  <table class="table table-bordered table-hover event-entries" style="display:table">
+    <tr>
+      <!-- <th>S.No.</th> -->
+      <th>Player's Name</th>
+      <th>College's Name</th>
+      <th>Score</th>
+      <th>Medal</th>
+    </tr>
+
+    {% with match|getattribute:sport as players %}
+    {% for playa in players.all %}
+      {% if playa.time != "-1" %}
+
+    <tr class="iit {{ playa.player.team.college|team_slug }}">
+      <!-- <td>{{ forloop.counter }}</td> -->
+      <td>
+        <a href="{% url 'player_profile' playa.player.id %}">{{playa.player.name|title}}</a>
+      </td>
+      <td>{{ playa.player.team }}</td>
+      <td>{{ playa.time }} min</td>
+      <td>{{ playa.medal }}</td>
+
+      {% if request.user.is_staff %}
+      <td><button onclick="window.location='{% url sport|player_sport playa.id %}'" type="button" class="btn btn-sm">Player Score Update</button></td>
+            <td><button onclick="window.location='{% url sport|player_sport_delete playa.id %}'" type="button" class="btn btn-sm">Player Score Delete</button></td>
+
+      {% else %}
+      {% endif %}
+    </tr>
+
+      {% endif %}
+
+    {% endfor %}
+
+    {% for playa in players.all %}
+      {% if playa.time == "-1" %}
+
+    <tr class="iit {{ playa.player.team.college|team_slug }}">
+      <!-- <td>{{ forloop.counter }}</td> -->
+      <td>
+        <a href="{% url 'player_profile' playa.player.id %}">{{playa.player.name|title}}</a>
+      </td>
+      <td>{{ playa.player.team }}</td>
+      <td> - </td>
+      <td>{{ playa.medal }}</td>
+
+      {% if request.user.is_staff %}
+      <td><button onclick="window.location='{% url sport|player_sport playa.id %}'" type="button" class="btn btn-sm">Player Score Update</button></td>
+      <td><button onclick="window.location='/playerswimming_delete/{{ playa.id }}'" type="button" class="btn btn-sm">Player Score Delete</button></td>
+
+      {% else %}
+      {% endif %}
+    </tr>
+
+      {% endif %}
+
+    {% endfor %}
+
+     
+
+    {% endwith %}
+
+  </table>
+
+  <h4 class='text-center'>{{match.score_detail}}</h4>
+</div>

@@ -1,0 +1,107 @@
+{% extends 'Schedule/base.html' %}
+{% load i18n %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% load custom_tags %}
+
+{% block title %}
+<style media="screen">
+  body{
+    background-color: #fafafa;
+    font-family: Lato;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+  <br><br>
+  <div class='container'>
+    <h1 class='heading_default'>53rd InterIIT Registration - Player Registration Portal</h1>
+    <hr>
+    <h2 class='heading_default'>Step {{ wizard.steps.step1 }}/{{ wizard.steps.count }} : Confirm Your Details - </h2>
+    <br>
+
+    <div class="container">
+      <!-- <h2 style='color:#333333;'>Please check below if your information is correct :</h2><br> -->
+
+      <div class="alert alert-info">
+        <strong>Note!</strong> Please check below if your information is correct.
+      </div>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Field Name</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for field, value in data.items %}
+          <tr>
+              <td>{{field|upper}}</td>
+              <td>
+
+                {% if field != 'event' %}
+                  {{value}}
+
+                {% else %}
+                  {% for event in value %}
+                    {{event}},
+                  {% endfor %}
+                {% endif %}
+              </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <br><br>
+      <h2>Trivia :</h2><br>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Answer</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for answer in answers %}
+          <tr>
+              <td>{{ trivia|index_title:forloop.counter0 }}</td>
+              <td>{{answer.answer}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <br>
+    <div class="alert alert-warning">
+      <strong>Warning!</strong> By clicking Confirm, I declare that all the above information is to the best of my knowledge.
+    </div>
+
+    <form method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{ wizard.management_form }}
+        {{ wizard.form|crispy }}
+
+        {% if wizard.steps.prev %}
+        <button class='btn btn-default' name="wizard_goto_step" type="submit" value="{{ wizard.steps.first}}">{% trans "First Step" %}</button>
+        <button class='btn btn-default' name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Prev Step" %}</button>
+        {% endif %}
+        <input class='btn btn-success' type="submit" value="{% trans "Submit" %}"/>
+    </form>
+    <br>
+    <hr>
+  </div>
+
+<br><br><br>
+
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+
+{{ form.media }}
+{% endblock %}

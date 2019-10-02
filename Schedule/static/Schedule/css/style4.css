@@ -1,0 +1,169 @@
+/*@import url("//fonts.googleapis.com/css?family=Lato:400,300,700,100,500");*/
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+* {
+ padding: 0;
+    margin:0px ;
+}
+
+body {
+    overflow-x: hidden;
+    font-family: "Lato" ,'arial';
+    color: #707070;
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+li {
+
+    list-style: none;
+    display: inline-block
+}
+
+a {
+
+    text-decoration: none;
+    transition: all 500ms ease-in-out;
+}
+
+a:hover,
+a:active {
+
+    text-decoration: none;
+}
+
+h1,
+h2,
+h4 {
+    font-family: "Lato" ,'arial';
+    font-weight: 700;
+}
+
+p {
+    font-size: 15px;
+    line-height: 21px;
+}
+
+.all{
+    padding-left:10vw;
+    padding-right:13vw;
+    margin:0px 0px;
+
+
+}
+
+.games{
+    margin-top:15vh;
+}
+.btn{
+    padding-left:10px;
+    margin-left:2px;
+    margin-bottom:2px;
+    border-radius: 30px;
+}
+.btn:hover{
+    background-color: #ededed!important;
+    color:#3c3c3c;
+}
+.col-lg-12,.col-lg-6{
+    padding: 0px;
+}
+.info{
+    top:15vh;
+    /* position: absolute;
+    margin-left:0px; */
+}
+.my-4{
+   background-color: #00a7cc;
+   border-color: #00a7cc;
+    width: 25%;
+    border-width: 2px;
+}
+
+.profileImg{
+    margin-top: 17px;
+    height: 150px;
+    width: 150px;
+
+    border:solid 3px #00A7CC;
+}
+
+.selected{
+    background
+}
+.info button{
+    border-width: 1px;
+    border-radius: 30px;
+    margin-right:30px;
+    margin-top:10px;
+    font-size: 15px;
+
+}
+.players{
+    /* margin-top:10vh; */
+    position: relative;
+    left :0px;
+    right:0px;
+    top:50px;
+}
+hr{
+    background-color: #707070;
+   border-color: #7070707;
+   border-width: 2px;
+}
+.profile{
+    line-height: 1.5;
+}
+.profile span{
+    font-weight:bold;
+}
+.players h3{
+    color:#333333;
+}
+.info h2{
+    font-weight:bold;
+    color:#707070;
+}
+
+.approve ,.update,.delete{
+    height:40px;
+    width: 200px;
+    border-radius:5px !important ;
+    color:white;
+    margin-bottom: 10px;
+    text-align: center;
+    margin-top:10px;
+}
+
+.approve{
+    background-color:#1fc500!important ;
+}
+.update{
+    background-color: #00a7cc!important;
+}
+.delete{
+    background-color: #c60036!important;
+}
+
+.input-group{
+    margin-top: 20px;
+    margin-right:110px;
+    text-align: left;
+}
+
+.sportdropbox{
+    margin-top: 20px!important;
+}
+
+.sportdropbox form > select{
+    width: 200px;
+    vertical-align: middle;
+}
+
+.players button{
+  float: right;
+}
+
+h1,h2,h3,h4,h5,h6{
+  text-transform: none;
+}

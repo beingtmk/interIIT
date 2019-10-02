@@ -1,0 +1,56 @@
+{% extends "Schedule/base.html" %}
+{% load i18n %}
+
+{% load static %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+<style media="screen">
+  body{
+    background-color: #fafafa;
+  }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+
+  <br><br>
+  <h1 class='heading_default'>53rd InterIIT Registration - Player Registration Portal</h1>
+  <hr>
+  <h2 class='heading_default'>* Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}  : Answer Some Trivia - </h2>
+  <h3 style='color:red;'>Do Not Use Emoji's in the form</h3>  
+<br>
+  <form method="post">
+      {% csrf_token %}
+      {{ wizard.management_form }}
+      {{ wizard.form.management_form }}
+
+      <!-- {{ wizard.form|crispy }} -->
+
+      {% for form in wizard.form %}
+      <div class="jumbotron">
+        <h3 style='font-family:Lato;color: #333333;'> Trivia Question #{{forloop.counter}}: </h3>
+        <h4 style='font-family:Lato;  color: #365899;'>
+          Title : {{ trivia|index_title:forloop.counter0 }}
+        </h4>
+
+        <h5 style='font-family:Lato; color: #545454;'>
+          Brief : {{ trivia|index_brief:forloop.counter0 }}
+        </h5>
+        <br>
+        {{form}}
+      </div>
+      {% endfor %}
+
+      {% if wizard.steps.prev %}
+      <button class='btn btn-default' name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Prev Step" %}</button>
+      {% endif %}
+      <input class='btn btn-success' type="submit" value="{% trans "Next" %}"/>
+
+    </form>
+</div>
+<br><br>
+{% endblock %}

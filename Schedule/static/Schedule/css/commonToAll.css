@@ -1,0 +1,146 @@
+/*Navbar*/
+.heading_default{
+	font-family: 'Lato','sans-serif';
+	font-weight: bold;
+	color: #707070;
+	letter-spacing: 1px;
+	margin-top: 1rem;
+
+}
+
+.navbar{
+	padding-top:15px;padding-bottom: 15px;
+	border-bottom: solid 1px #f6f6f6;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+	transition: all 0.3s ease-out;
+	background-color:#fff;
+}
+
+img.logo{
+	height: 7vh;
+	margin-left: 7rem;
+}
+
+ul.navbar-nav{
+	margin-right: 8rem;
+}
+
+.nav-item{
+	font-size: 16px;
+	font-weight: bold;
+	margin:15px;
+	border-bottom: solid 2px transparent;
+}
+.nav-link{
+	color:#666666 !important;
+}
+.nav-link:hover{
+	color:black !important;
+}
+
+.navbar-toggler {
+    border:none !important;
+}
+
+
+@media only screen and (max-width:992px){
+	img.logo{
+		margin-left: 1rem;
+	}
+	.dropdown-menu{
+	    border: none;
+	    border-left: 2px solid grey;
+	    padding-left: 15px;
+	    border-radius: 0px;
+	}
+  .navbar{
+    padding: 2%;
+  }
+
+}
+
+.social .box-holder{
+	position: relative;
+	height: 147px;
+	text-decoration: none;
+	display: block;
+	color: #FFFFFF;
+	padding:1rem;
+	opacity: 0.91;
+}
+
+.facebook .box-holder{
+	background-color: #3b5998;
+}
+
+.instagram .box-holder{
+	background-color: #FE863F;
+}
+
+.txt2{
+	display: none;
+}
+
+.youtube .box-holder{
+	background-color: #E31E3A;
+}
+
+.footer{
+	background-color: #f9feff;
+	width: 100%;
+	padding-top:2%;padding-bottom: 2%;
+}
+
+.social .box-holder:hover{
+	opacity:1;
+}
+
+.txt1,.txt2{
+	float: right;
+	text-align: right;
+	font-weight: bold;
+	letter-spacing:0.8px;
+	/*margin-top:15%;*/
+	position: absolute;
+	bottom:15px;
+	right:15px;
+	text-transform: uppercase;
+}
+
+.icon img{
+	height: 32px;
+}
+
+@media only screen and (max-width:772px){
+	.icon{
+		margin-top:5px;
+	}
+	.social .box-holder{
+		height: 73px;
+	}
+  .txt1{
+		display: none;
+	}
+	.txt2{
+		position: static!important;
+		display: block !important;
+		margin-top:0;
+    color: white;
+		float: right;
+		margin-top:-27px;
+	}
+
+
+}
+
+.myFooter{
+	padding:0px !important;
+}
+
+.pictofix{
+	height: auto!important;
+}
+
+.jumbotron{
+	padding: 2rem 1rem !important;
+}

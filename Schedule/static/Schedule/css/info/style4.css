@@ -1,0 +1,277 @@
+*{
+  margin:0;
+  padding:0;
+}
+body{
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.header{
+  padding:0;
+  margin:0 0 0 0;
+  background-color: white;
+  display:table;
+  width:100%;
+  /*white-space: nowrap;*/
+  border-:1px #707070 solid;
+  box-shadow:  0 3px 12px 0px rgba(0,168,202,0.17);
+
+}
+
+.header img{
+  padding-left:11%;
+}
+
+.header ul{
+  margin-right:10%;
+  padding-right:10%;
+  display:inline-block;
+  white-space: nowrap;
+  text-indent: 0;
+}
+
+.header ul li{
+
+  display:inline-table;
+  padding-left:1%;
+  padding-right:2%;
+  /*background-color: rgba(0,0,0,0.25);*/
+  text-align: center;
+  margin-right:3%;
+}
+
+.header ul li a{
+  display:block;
+  text-decoration: none;
+  color:#666;
+  line-height: 3vw;
+  font-size: 1.15vw;
+  font-family: 'Lato', sans-serif;
+}
+
+
+.header ul li a:hover{
+  color:#00A7CC;
+
+}
+
+.para1{
+  width:100%;
+  height:45vw;
+  background-position: center;
+  background-image: url(11545911195_ba83153055_b.jpg);
+
+}
+
+/*
+      .content {
+        padding-left: 12%;
+        padding-right: 10%;
+
+      }
+*/
+      .tab-menu{
+      /*  padding-top: 2%;
+        padding-left:9%;
+        padding-right:9%;*/
+        display:table;
+        width:100%;
+        align:center;
+        background-color: /*#DA6D47;*/#167687;
+        /*white-space: nowrap;*/
+      }
+
+
+      .tab-menu ul{
+        padding-left: 0;
+        padding-right:5%;
+        align:center;
+        width:100%;
+        padding-left: 15%;
+        /*transform: translateX(-50%);*/
+        display:inline-block;
+        white-space: nowrap;
+        text-indent: 0;
+        /*text-indent: 20%;
+        margin:0;
+        padding:0;
+        position: absolute;
+        left:20%;*/
+
+      }
+
+      .tab-menu ul li{
+        margin-right: 4.5%;
+        display:inline-table;
+        width = 100%;
+        padding-left:2%;
+        padding-right:2%;
+        text-align: center;
+
+        line-height: 3.15vw;
+        font-size: 1.35vw;
+        color:white;
+        font-family: 'Poiret One', cursive;
+
+      }
+
+
+
+}
+
+
+      .tab-menu ul li a{
+
+        text-align: center;
+        display:inline-block;
+        text-decoration: none;
+        font-family: 'Metamorphous', cursive;
+      }
+
+      .tab-menu ul:hover{
+        color:white;
+      }
+      .tab-menu ul li:hover{
+        background-color: #00A7CC;
+        
+        color:white;
+      }
+
+
+      .tab-menu ul li a:hover{
+        color:white
+      }
+
+      .content p{
+        padding-right:5%;
+        color:#707070;
+      }
+
+.para2{
+  display: inline-table;
+
+  justify-content: center;
+
+}
+.para2 .text{
+  vertical-align: top;
+  width:38%;
+  display:inline-block;
+  padding:3%;
+  align-content: center;
+ font-family: 'Lato', sans-serif;
+
+
+  font-size: 1.25vw;
+}
+.para2 image{
+  
+ 
+}
+
+.para2 img{
+  background-size:cover;
+ width:50%;
+  padding-top:3%;
+  padding-left: 12%;
+}
+
+.para2 .button {
+    background-color: #4CAF50;
+    border-radius: 25px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+}
+.dropbtn {
+    
+    color: black;
+    padding: 4px;
+    font-size: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 20px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    text-decoration: none;
+    display: block;
+    padding-left: 0.8vw;
+    padding-right: 0.8vw;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+.para2 .text1{
+   vertical-align: top;
+  width:50%;
+  display:inline-block;
+  padding-left:12%;
+  align-content: center;
+ font-family: 'Lato', sans-serif;
+
+
+  font-size: 1.25vw;
+}
+
+.para2 .image1{
+  background-size:cover;
+ width:50%;
+ padding-top: 4%;
+ padding-right: 15%;
+ padding-left: 2%;
+}
+
+
+.topic{
+  font-family: 'Metamorphous', cursive;
+    padding-left: 12%;
+}
+
+.heading{
+  padding-left: 12%;
+  
+}
+
+.inner{
+  font-family: 'Poiret One', cursive;
+  font-size: 2.8vw;
+  line-height: 3.4vw;
+  text-align: center;
+  border-bottom:1px #707070 solid;
+  border-color:rgb(0,168,202);
+}

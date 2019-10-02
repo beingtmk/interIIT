@@ -1,0 +1,37 @@
+{% extends 'Schedule/base.html' %}
+{% block content %}
+
+<div class="container">
+<p><button onclick="window.location='{% url 'water_polo' %}'" class="btn btn-default">Go Back</button></p>
+
+<div class="table-responsive">
+<table class="table table-bordered table-hover">
+  <tr>
+  <th>Teams</th>
+  <th>Match</th>
+  <th>Win</th>
+  <th>Lose</th>
+  <th>Points</th>
+  </tr>
+{% for match in matches %}
+
+
+<tr>
+  <td>
+  <div style="width='100';height='20'"><img src="{{ match.team.image.url }}"></div>
+  {{match.team}}
+    </td>
+
+  <td><div class="text-center">{{match.match_played}}</div></td>
+  <td><div class="text-center">{{match.win}}</div></td>
+  <td><div class="text-center">{{match.lose}}</div></td>
+  <td><div class="text-center">{{match.points}}</div></td>
+
+</tr>
+
+{% endfor %}
+</table>
+</div>
+</div>
+
+{% endblock %}

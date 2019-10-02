@@ -1,0 +1,11 @@
+django==2.0.7
+django-crispy-forms
+django-phonenumber-field==1.3.0
+django-imagekit
+django-tables2
+django-autocomplete-light
+pillow
+django-formtools
+django_select2
+tablib
+django-import-export

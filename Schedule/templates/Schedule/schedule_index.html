@@ -1,0 +1,33 @@
+{% extends 'Schedule/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{%block title%}
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/schedule_index.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container padlr0">
+  <br>
+  <div class="heading" style="margin-left:15px;">
+  <h2>Sports</h2>
+  <img src="{% static 'Schedule/img/index/line.png' %}" id="u1">
+  </div>
+{% if latest_sport_list %}
+  <div class="row sportsRow margfixrow" >
+    {% for sport in latest_sport_list %}
+        <div class="col-4 col-md-2 icon_text">
+          <a href="{% url sport|sport_url %}">
+          <div class="sportsBox">
+             <img class="pictofix" src="{% static sport|sport_logo %}">
+           </div>
+           <br>
+          <span class="sportsText">{{ sport|upper|remove_us }}</span>
+          </a>
+        </div>
+    {% endfor %}
+  </div>
+{% else %}
+    <p>No sports are available.</p>
+{% endif %}
+</div>
+<br><br>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'Schedule/base.html' %}
+{% load i18n %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+
+  <br><br>
+  <div class='container'>
+    <h1>53rd InterIIT Registration - Staff Registration Portal</h1>
+    <hr>
+    <h2>Step {{ wizard.steps.step1 }}/{{ wizard.steps.count }} : Personal Info and Participation Details - </h2>
+    <br>
+    <form method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{form|crispy}}
+        <input type="submit" value="Submit"/>
+
+    </form>
+  </div>
+
+
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+
+{% endblock %}

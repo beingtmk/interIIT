@@ -1,0 +1,49 @@
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+</head>
+<body>
+    Onload Fetch Scores and 5-10 comments with date time
+    <h1>Score </h1>
+    <h2 id="score"></h2>
+    <h1>Comments </h1>
+    <ul id="comments">
+    </ul>
+    <button id="get_more">Get More</button>
+</body>
+<script>
+    localStorage.debug = '*';
+    var url = "http://localhost:3000";
+    var sport = "cricket";
+    var match_id = 35;
+    var socket = io.connect(url,{"query":"match_id="+match_id+"&sport="+sport});
+    var comments_till;
+    var comments_start;
+    socket.on('score_update',function(msg){
+        $("#score").html(msg);
+    })
+    socket.on('comment',function(msg){
+        $("#comments").prepend("<li>" + msg + "</li>");
+    })
+    socket.on('add_comment',function(msg){
+        comments_till = msg["comment_id"];
+        console.log(comments_till);
+        for(var i in msg["comments"]){
+            $("#comments").append("<li>"+msg["comments"][i]+"</li>");
+        }
+    });
+    $("#get_more").on("click",function(){
+        if(comments_till===0){
+            $("#comments").append("<li>End of Comments</li>");
+            comments_till--;
+        }
+        else if(comments_till===-1){
+            return;
+        }
+        else{
+            socket.emit("load_comment",{"comment_id":comments_till})
+        }
+    });
+</script>
+</html>

@@ -1,0 +1,226 @@
+{% extends 'Schedule/base1.html' %}
+{% load static %}
+{% block title %}
+  <title>Inter IIT Sports Meet 2018</title>
+  <!--Bootstrap css-->
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/bootstrap.css' %}">
+  <!--Font Awesome-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <!--Flickity for carousels-->
+  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/jquery.pagepiling.css' %}" />
+  <!--main css-->
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'Schedule/css/style2.css' %}">
+{% endblock %}
+
+{% block content %}
+<section id="above-nav" style="display: none;">
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-xs-0 col-md-4 text-left">
+         </div>
+         <div class="col-xs-12 col-md-4 text-center">
+         </div>
+         <div class="d-none d-md-block col-md-4 text-right social" >
+            <a  href="#" ><i class="fab fa-facebook"></i></a>
+            <a  href="#" ><i class="fab fa-instagram"></i></a>
+            <a  href="#" ><i class="fab fa-twitter"></i></a>
+            <a  href="#" ><i class="fab fa-youtube"></i></a>
+         </div>
+      </div>
+   </div>
+</section>
+
+<!--Page 1-->
+<div id="pagepiling">
+   <div class="section">
+      <!--Header-->
+      <header class="v-header container">
+         <div class="fullscreen-video-wrap">
+            <video autoplay muted loop>
+               <source src="https://www.videvo.net/videvo_files/converted/2015_08/preview/Track_and_Field_2.mp478173.webm" type="video/mp4">
+            </video>
+         </div>
+         <div class="header-overlay">
+            <!--Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-light ">
+               <a class="navbar-brand" href="#"><img src="{% static 'Schedule/img/logo.png' %}" class="logo"></a>
+               <span class="navbarHeading " style="color:#228ae6;"><b>53rd Inter IIT Sports Meet</b><br> Guwahati<br></span>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon blue">
+               </span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav ml-auto navbar-left">
+                     <li class="nav-item ">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Schedule & Results</a>
+                     </li>
+                     <li class="nav-item ">
+                        <a class="nav-link" href="#">Gallery</a>
+                     </li>
+                     <li class="nav-item ">
+                        <a class="nav-link" href="#">Events</a>
+                     </li>
+                     <li class="nav-item ">
+                        <a class="nav-link" href="#">Contact</a>
+                     </li>
+                  </ul>
+               </div>
+            </nav>
+         </div>
+         <div class="header-content ">
+            <div class="box">
+               <h4 style="color: #fff; font-weight: bold;">53rd Inter IIT <br>
+                  Sports Meet<br>Guwahati 2018
+               </h4>
+               <br>
+               <div id="countdown"></div>
+            </div>
+            <div class="row below ">
+               <div class="col-md-4 d-none d-md-block">
+                  <img src="{% static 'Schedule/img/team.png' %}"><br>
+                  3500+ Participents
+               </div>
+               <div class="col-md-4 d-none d-md-block">
+                  <img src="{% static 'Schedule/img/university.png' %}"><br>23 IITs
+               </div>
+               <div class="col-md-4 d-none d-md-block">
+                  <img src="{% static 'Schedule/img/trophy.png' %}"><br>16 Events
+               </div>
+            </div>
+         </div>
+      </header>
+   </div>
+   <div class="section pp-scrollable" style="padding: 0">
+      <section id="page-2">
+         <div class="container-fluid" style="padding: 15px;">
+            <div class="row">
+               <div class="col-md-4 col-xs-12" style="padding: 5%;">
+                  <div class="leaderboard">
+                     <h3 style="color: #228ae6; font-weight: bold;"> LEADERBOARD </h3>
+                     <table class="table text-center" style="margin-top: 5vh">
+                        <thead>
+                           <th>IIT</th>
+                           <th style="color: red">Gold</th>
+                           <th style="color: red">Silver</th>
+                           <th style="color: red">Bronze</th>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <th scope="row">Bombay</th>
+                              <td>1</td>
+                              <td>1</td>
+                              <td>1</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Bombay</th>
+                              <td>1</td>
+                              <td>1</td>
+                              <td>1</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Bombay</th>
+                              <td>1</td>
+                              <td>1</td>
+                              <td>1</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Bombay</th>
+                              <td>1</td>
+                              <td>1</td>
+                              <td>1</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Bombay</th>
+                              <td>1</td>
+                              <td>1</td>
+                              <td>1</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Bombay</th>
+                              <td>1</td>
+                              <td>1</td>
+                              <td>1</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Bombay</th>
+                              <td>1</td>
+                              <td>1</td>
+                              <td>1</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                     <a href="#" style="float: right;text-decoration: underline;"> View More</a>
+                  </div>
+               </div>
+               <div class="col-md-8 col-xs-12" style="padding: 5%;">
+                  <div class="gallery">
+                     <h3 style="color: #228ae6; font-weight: bold;">GALLERY</h3>
+                     <br>
+                     <div class="carousel" data-flickity='{ "fullscreen": true, "lazyLoad": 1 ,"contain": true }'>
+                        <div class="carousel-cell"><img class="carousel-cell-image"
+                           data-flickity-lazyload="{% static 'Schedule/img/carousel1.jpeg' %}" /></div>
+                        <div class="carousel-cell"><img class="carousel-cell-image"
+                           data-flickity-lazyload="{% static 'Schedule/img/carousel1.jpeg' %}" /></div>
+                        <div class="carousel-cell"><img class="carousel-cell-image"
+                           data-flickity-lazyload="{% static 'Schedule/img/carousel1.jpeg' %}" /></div>
+                        <div class="carousel-cell"></div>
+                        <div class="carousel-cell"></div>
+                     </div>
+                     <br>
+                     <a href="#" style="float: right;text-decoration: underline;"> View More</a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+   </div>
+   <div class="section">
+      <section id="page-3">
+         <div class="row about" style="padding: 0">
+            <div class="col-md-6 bg1 "></div>
+            <div class="col-md-6" style="padding: 5%;">
+               <h3 class="text-center">ABOUT</h3>
+            </div>
+         </div>
+         <div class="row about">
+            <div class="col-md-5" style="padding: 5%;">
+               <h3 class="text-center">BRIEF HISTORY</h3>
+            </div>
+            <div class="col-md-7 bg2 "></div>
+         </div>
+      </section>
+   </div>
+   <div class="section">
+      <section id="page-4">
+         <div class="container">
+            <h3 class="text-center" style="color: #228ae6; font-weight: bold;text-decoration: underline;margin-bottom:10vh;">SPONSORS</h3>
+            <ul id="sponsors">
+               <li> <img src="{% static 'Schedule/img/sponsor1.png' %}"></li>
+               <li> <img src="{% static 'Schedule/img/sponsor1.png' %}"></li>
+               <li> <img src="{% static 'Schedule/img/sponsor1.png' %}"></li>
+               <li> <img src="{% static 'Schedule/img/sponsor1.png' %}"></li>
+            </ul>
+            </ul>
+         </div>
+      </section>
+   </div>
+</div>
+<!--jQuery CDN-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!--Bootstrap js-->
+<script type="text/javascript" src="{% static 'Schedule/js/bootstrap.js' %}"></script>
+<!--Flickity-->
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+<script type="text/javascript" src="{% static 'Schedule/js/jquery.pagepiling.js' %}"></script>
+<!--Main js-->
+<script type="text/javascript" src="{% static 'Schedule/js/main.js' %}"></script>
+
+{% endblock %}
